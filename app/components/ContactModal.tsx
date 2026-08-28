@@ -14,8 +14,8 @@ export default function ContactModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const phone = "+91 99664 30431";
-  const rawPhone = "+919966430431";
+  const phone = "+91 98480 00274";
+  const rawPhone = "+919848000274";
 
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
@@ -132,7 +132,7 @@ export default function ContactModal() {
 
                 <div className="flex items-center gap-1.5 shrink-0">
                   <a
-                    href={`https://wa.me/919966430431`}
+                    href={`https://wa.me/919848000274`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Chat on WhatsApp"
