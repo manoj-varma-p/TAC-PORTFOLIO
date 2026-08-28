@@ -10,6 +10,7 @@ interface InitiativeItem {
   tagline: string;
   description: string;
   badge?: string;
+  image: string;
   icon: React.ReactNode;
 }
 
@@ -21,8 +22,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "Design Blueprints & Presets",
     description: "Curated editing recipes, color grading LUTs, motion toolkits, and project blueprints built for commercial workflows.",
     badge: "Toolkits",
+    image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M19 11V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v7M3 11h18a1 1 0 0 1 1 1v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8a1 1 0 0 1 1-1Z" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M12 3v8M8 7h8M8 15h8" strokeLinecap="round" />
       </svg>
@@ -35,8 +37,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "Original Media & Cinema",
     description: "Our in-house production house producing original narrative shorts, pop-culture web content, and creator media.",
     badge: "Originals",
+    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <rect x="2" y="2" width="20" height="20" rx="4" />
         <path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 7h5M17 17h5" strokeLinecap="round" />
         <polygon points="10,9 15,12 10,15" fill="currentColor" stroke="none" />
@@ -50,8 +53,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "15-Minute Skill Sprints",
     description: "High-impact, bite-sized micro masterclasses covering VFX compositing, speed-editing hacks, and sound design secrets.",
     badge: "Micro-Courses",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" strokeLinecap="round" strokeLinejoin="round" />
         <path d="m8.5 8.5 7 7" strokeLinecap="round" />
       </svg>
@@ -64,8 +68,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "Cinematic Worldbuilding",
     description: "Master the directorial craft: shot composition, narrative tension, actors' direction, and subtextual scene blocking.",
     badge: "Universe",
+    image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <circle cx="12" cy="12" r="9" />
         <path d="M12 3v18M3 12h18" strokeLinecap="round" />
         <circle cx="12" cy="12" r="3.5" fill="currentColor" fillOpacity="0.3" />
@@ -79,8 +84,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "Next-Gen Creative Intelligence",
     description: "State-of-the-art AI suite empowering creators with automated storyboarding, neural scene extension, and voice synthesis.",
     badge: "v2.0",
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round" />
         <circle cx="12" cy="12" r="3" fill="currentColor" fillOpacity="0.4" />
       </svg>
@@ -93,8 +99,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "Virtual Production & Generative VFX",
     description: "Bridging cinematography with generative AI: real-time Unreal Engine virtual sets, digital lighting, and concept art.",
     badge: "Production Lab",
+    image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M23 7 16 12l7 5V7z" />
         <rect x="1" y="5" width="15" height="14" rx="2" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="8" cy="12" r="2" fill="currentColor" fillOpacity="0.4" />
@@ -108,8 +115,9 @@ const INITIATIVES: InitiativeItem[] = [
     tagline: "End-to-End Autonomous Pipeline",
     description: "Prompt-to-premiere pipeline masterclass: writing scripts, generating keyframes, neural animation, foley, and 4K mastering.",
     badge: "Masterclass",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M6 6h10M6 10h10M6 14h6" strokeLinecap="round" />
         <circle cx="16" cy="14" r="1.5" fill="currentColor" />
@@ -155,8 +163,8 @@ export default function MoreFromTac() {
           </button>
         </div>
 
-        {/* Clean, Animated 7-Card Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* Clean, Animated 7-Card Grid with Relatable Imagery */}
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {INITIATIVES.map((item, index) => {
             const isWide = index === 6; // 7th card spans 2 columns on larger screens for balanced symmetry
 
@@ -168,57 +176,63 @@ export default function MoreFromTac() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.45, delay: index * 0.06 }}
                 onClick={openContactModal}
-                className={`group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-gold/60 hover:bg-white/[0.04] hover:shadow-[0_15px_40px_rgba(255,184,0,0.12)] cursor-pointer ${
+                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#0e0e14]/80 shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-gold/60 hover:shadow-[0_20px_50px_rgba(255,184,0,0.18)] cursor-pointer ${
                   isWide ? "sm:col-span-2 xl:col-span-2" : ""
                 }`}
               >
-                {/* Subtle Hover Radial Aura */}
-                <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gold/10 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                {/* Top Image Banner */}
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/40">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-108 group-hover:brightness-110"
+                    loading="lazy"
+                  />
+                  {/* Subtle Gradient Fade into Card Body */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e14] via-[#0e0e14]/40 to-transparent" />
 
-                <div>
-                  {/* Top Row: Icon + Number & Badge */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] transition-all duration-300 group-hover:scale-110 group-hover:border-gold/50 group-hover:bg-gold/10">
+                  {/* Floating Badges over Image */}
+                  <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between z-10">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-black/60 backdrop-blur-md text-gold shadow-lg transition-transform group-hover:scale-110 group-hover:border-gold/60">
                       {item.icon}
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       {item.badge && (
-                        <span className="rounded-full bg-gold/15 border border-gold/30 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-gold">
+                        <span className="rounded-full bg-black/70 backdrop-blur-md border border-gold/40 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-gold shadow-sm">
                           {item.badge}
                         </span>
                       )}
-                      <span className="font-mono text-xs font-extrabold text-gray-500 group-hover:text-gold transition-colors">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/70 backdrop-blur-md border border-white/15 font-mono text-[10px] font-extrabold text-gray-300 group-hover:text-gold group-hover:border-gold/40 transition-colors">
                         {item.number}
                       </span>
                     </div>
                   </div>
-
-                  {/* Title & Tagline */}
-                  <div className="mt-5">
-                    <h3 className="text-xl font-extrabold text-white transition-colors group-hover:text-gold">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-xs font-semibold text-gold/85">
-                      {item.tagline}
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="mt-3 text-sm leading-relaxed text-gray-light/85">
-                    {item.description}
-                  </p>
                 </div>
 
-                {/* Bottom Action Footer */}
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
-                  <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors">
-                    Explore Initiative
-                  </span>
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-gray-300 transition-all duration-300 group-hover:border-gold group-hover:bg-gold group-hover:text-black group-hover:translate-x-1">
-                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="2.2">
-                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                {/* Content Body */}
+                <div className="p-5 sm:p-6 pt-2">
+                  <h3 className="text-xl font-extrabold text-white transition-colors group-hover:text-gold">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-xs font-semibold text-gold/90">
+                    {item.tagline}
+                  </p>
+
+                  <p className="mt-2.5 text-sm leading-relaxed text-gray-light/85 line-clamp-3">
+                    {item.description}
+                  </p>
+
+                  {/* Bottom Action Footer */}
+                  <div className="mt-5 flex items-center justify-between border-t border-white/[0.07] pt-3.5">
+                    <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors">
+                      Explore Initiative
+                    </span>
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-gray-300 transition-all duration-300 group-hover:border-gold group-hover:bg-gold group-hover:text-black group-hover:translate-x-1">
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth="2.2">
+                        <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </motion.div>
