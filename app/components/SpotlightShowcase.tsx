@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { openContactModal } from "./ContactModal";
 
 export type GuestSpotlightItem = {
@@ -22,6 +23,66 @@ interface SpotlightShowcaseProps {
 }
 
 export default function SpotlightShowcase({ items }: SpotlightShowcaseProps) {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [speed, setSpeed] = useState<1 | 2>(1);
+  const [isUserHovering, setIsUserHovering] = useState(false);
+  const userScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isManualScrolling, setIsManualScrolling] = useState(false);
+  const animFrameRef = useRef<number | null>(null);
+
+  // Auto-scroll loop
+  const step = useCallback(() => {
+    if (isPlaying && !isUserHovering && !isManualScrolling) {
+      const scrollStep = speed === 1 ? 0.75 : 1.5;
+      window.scrollBy({ top: scrollStep, behavior: "auto" });
+
+      // If reached the bottom, loop back to top
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.documentElement.scrollHeight - 60;
+      if (scrollPosition >= threshold) {
+        setIsManualScrolling(true);
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(() => setIsManualScrolling(false), 1200);
+        }, 1500);
+      }
+    }
+    animFrameRef.current = requestAnimationFrame(step);
+  }, [isPlaying, isUserHovering, isManualScrolling, speed]);
+
+  useEffect(() => {
+    animFrameRef.current = requestAnimationFrame(step);
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [step]);
+
+  // Pause on manual user wheel or touch
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      setIsManualScrolling(true);
+      if (userScrollTimeoutRef.current) clearTimeout(userScrollTimeoutRef.current);
+      userScrollTimeoutRef.current = setTimeout(() => {
+        setIsManualScrolling(false);
+      }, 2500);
+    };
+
+    window.addEventListener("wheel", handleUserInteraction, { passive: true });
+    window.addEventListener("touchmove", handleUserInteraction, { passive: true });
+    window.addEventListener("keydown", handleUserInteraction, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", handleUserInteraction);
+      window.removeEventListener("touchmove", handleUserInteraction);
+      window.removeEventListener("keydown", handleUserInteraction);
+      if (userScrollTimeoutRef.current) clearTimeout(userScrollTimeoutRef.current);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="relative w-full overflow-hidden">
       {/* Ambient Lighting Background */}
@@ -37,6 +98,66 @@ export default function SpotlightShowcase({ items }: SpotlightShowcaseProps) {
         aria-hidden
         className="pointer-events-none absolute top-2/3 -right-64 h-[600px] w-[600px] rounded-full bg-amber-500/[0.07] blur-[140px]"
       />
+
+      {/* Floating Auto-Slideshow Control Widget */}
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-gold/30 bg-black/80 px-4 py-2.5 shadow-[0_10px_35px_rgba(0,0,0,0.8)] backdrop-blur-md">
+        {/* Play/Pause Button */}
+        <button
+          type="button"
+          onClick={() => setIsPlaying((prev) => !prev)}
+          className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold hover:text-white transition-colors cursor-pointer"
+          title={isPlaying ? "Pause Auto Slideshow" : "Play Auto Slideshow"}
+        >
+          <span
+            className={`h-2 w-2 rounded-full ${
+              isPlaying && !isUserHovering && !isManualScrolling
+                ? "bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]"
+                : "bg-amber-400"
+            }`}
+          />
+          {isPlaying ? (
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+              </svg>
+              {isUserHovering || isManualScrolling ? "Paused" : "Auto Slideshow"}
+            </span>
+          ) : (
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              Play Slideshow
+            </span>
+          )}
+        </button>
+
+        <span className="h-3 w-[1px] bg-white/20" />
+
+        {/* Speed Toggle */}
+        <button
+          type="button"
+          onClick={() => setSpeed((s) => (s === 1 ? 2 : 1))}
+          className="rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-extrabold text-gray-200 hover:bg-gold hover:text-black transition-all cursor-pointer"
+          title="Toggle Scroll Speed"
+        >
+          {speed}x
+        </button>
+
+        <span className="h-3 w-[1px] bg-white/20" />
+
+        {/* Scroll To Top Button */}
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="text-gray-400 hover:text-gold transition-colors p-1 cursor-pointer"
+          title="Scroll to Top"
+        >
+          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
+          </svg>
+        </button>
+      </div>
 
       {/* Hero Header Section */}
       <section className="relative px-6 pt-10 pb-4 text-center sm:pt-12 sm:pb-6 lg:px-12">
@@ -89,6 +210,8 @@ export default function SpotlightShowcase({ items }: SpotlightShowcaseProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.65, ease: "easeOut" }}
+              onMouseEnter={() => setIsUserHovering(true)}
+              onMouseLeave={() => setIsUserHovering(false)}
               className={`relative flex flex-col items-center gap-8 lg:gap-14 ${
                 isImageLeft ? "lg:flex-row" : "lg:flex-row-reverse"
               }`}
