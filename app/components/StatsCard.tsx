@@ -38,8 +38,8 @@ const stats = [
   },
   {
     icon: <TrophyIcon className="h-8 w-8" />,
-    value: "20+",
-    label: "Awards & Recognitions",
+    value: "50+",
+    label: "Companies Hired",
   },
   {
     icon: <GlobeIcon className="h-8 w-8" />,
