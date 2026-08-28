@@ -169,21 +169,21 @@ const GUEST_SPEAKERS_DATA: Omit<GuestSpotlightItem, "id" | "edition" | "imageSrc
     tags: ["KirakSeetha", "BiggBossTelugu8", "BabyMovie", "TeluguActress", "DigitalCreator", "MainstreamCinema"],
   },
   {
-    guestName: "Shreya Chakraborty",
-    role: "VFX Compositing Lead • Red Chillies / DNEG Alum",
-    topic: "Planar Tracking, Green Screen Extraction & Edge Blending",
+    guestName: "Prem Surya",
+    role: "Master of Trailer Editing • Film Editor",
+    topic: "High-Impact Trailer Editing, Rhythmic Cuts & Cinematic Teaser Psychology",
     date: "Weekend Edition #10",
     about: [
-      "Shreya has supervised compositing on major commercial blockbusters. She demonstrated advanced chroma keying and clean plate reconstruction.",
-      "She revealed how she handles hair detail, motion blur, and ambient light spill to make green screen actors look organically placed in practical environments.",
+      "Prem Surya is one of Telugu cinema's premier trailer editors and promo architects, celebrated for crafting adrenaline-fueled, story-driven cuts for blockbuster films. His portfolio features flagship trailers and promos for major titles including The Raja Saab, Saripodhaa Sanivaaram, HIT: The Third Case, Court, Mirai, #CULT, Kaantha, and Couple Friendly.",
+      "In his masterclass, Prem shared the secrets of high-stakes trailer editing—from building escalating rhythm and sound design tension to selecting key emotional hooks that ignite box office anticipation. He demonstrated how editorial precision and pacing transform raw movie footage into cinematic event teasers.",
     ],
     keyAdvice: [
-      "Never rely on a single keyer; combine core mattes with soft edge mattes.",
-      "Match the camera's grain structure and lens distortion precisely on all CGI layers.",
-      "Invert your matte to check for edge halos before submitting to supervisors.",
+      "A trailer is not a summary; it is an emotional promise designed to leave the audience craving more.",
+      "Cut to the subconscious tempo of the sound effects and score, not just on-screen motion.",
+      "Hold back the climax—great teasers reveal the stakes while preserving the mystery.",
     ],
-    quote: "Compositing is the final brushstroke where technology meets illusion.",
-    tags: ["Compositing", "VFX", "AfterEffects", "Mocha"],
+    quote: "Trailer editing is the art of condensing two hours of cinematic storytelling into two minutes of pure adrenaline.",
+    tags: ["PremSurya", "TrailerEditing", "TheRajaSaab", "SaripodhaaSanivaaram", "HIT3", "FilmEditing", "TeluguCinema"],
   },
   {
     guestName: "Devendra Joshi",
@@ -282,7 +282,7 @@ function getSpotlightImages(): string[] {
 
   for (const dir of candidateDirs) {
     try {
-      if (fs.existsSync(dir)) {
+      if (fs.existsSync(/*turbopackIgnore: true*/ dir)) {
         const list = fs.readdirSync(/*turbopackIgnore: true*/ dir);
         const valid = list
           .filter((f) => /\.(jpe?g|png|webp|svg)$/i.test(f))

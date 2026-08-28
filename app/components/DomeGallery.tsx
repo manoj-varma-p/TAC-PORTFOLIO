@@ -1,4 +1,4 @@
-c:\Users\paksh\Downloads\IMG_20260828_124001.jpg.jpeg"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useCallback } from "react";
 import { useGesture } from "@use-gesture/react";
