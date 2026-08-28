@@ -39,9 +39,9 @@ export default function PhotoshopPage() {
           <div className="relative h-[calc(100vh-100px)] min-h-[600px] w-full">
             <DomeGallery
               images={images}
-              fit={1.05}
+              fit={1.12}
               minRadius={900}
-              padFactor={0.15}
+              padFactor={0.03}
               maxVerticalRotationDeg={12}
               segments={22}
               dragDampening={1}

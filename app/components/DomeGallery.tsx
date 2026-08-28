@@ -822,7 +822,7 @@ export default function DomeGallery({
     }
     .item__image {
       position: absolute;
-      inset: 10px;
+      inset: 3px;
       border-radius: var(--tile-radius, 12px);
       overflow: hidden;
       cursor: pointer;
@@ -835,7 +835,7 @@ export default function DomeGallery({
     }
     .item__image--reference {
       position: absolute;
-      inset: 10px;
+      inset: 3px;
       pointer-events: none;
     }
   `;
@@ -917,7 +917,7 @@ export default function DomeGallery({
                       openItemFromElement(e.currentTarget as HTMLElement);
                     }}
                     style={{
-                      inset: "10px",
+                      inset: "3px",
                       borderRadius: `var(--tile-radius, ${imageBorderRadius})`,
                       backfaceVisibility: "hidden",
                     }}
