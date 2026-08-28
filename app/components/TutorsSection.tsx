@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import CTAButton from "./CTAButton";
 import type { MorphItem } from "./MorphSlider";
 
 const DEFAULT_TUTORS: MorphItem[] = [
@@ -320,19 +319,6 @@ export default function TutorsSection({
             </div>
           </div>
         )}
-
-        {/* Bottom Enrollment Callout */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-6 rounded-xl border border-border/60 bg-white/[0.02] p-6 backdrop-blur-sm sm:flex-row sm:px-8 sm:py-6">
-          <div>
-            <h3 className="text-lg font-bold text-white">
-              Ready to learn from the best?
-            </h3>
-            <p className="text-sm text-gray-light">
-              Book a 1-on-1 portfolio review or join our upcoming mentor cohort.
-            </p>
-          </div>
-          <CTAButton label="JOIN NEXT MENTOR COHORT" href="#contact" />
-        </div>
       </div>
     </section>
   );
