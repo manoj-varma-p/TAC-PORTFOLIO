@@ -6,6 +6,7 @@ import { openContactModal } from "./ContactModal";
 interface StatBlock {
   value: string;
   label: string;
+  note?: string;
   isHighlighted?: boolean;
 }
 
@@ -23,6 +24,7 @@ const STATS_DATA: StatBlock[] = [
   {
     value: "100%",
     label: "PLACEMENT ASSISTANCE",
+    note: "*For students with a verified T-Shape portfolio & 90%+ attendance",
     isHighlighted: false,
   },
   {
@@ -115,6 +117,13 @@ export default function PlacementStatsSection() {
                   >
                     {item.label}
                   </span>
+
+                  {/* Optional Condition Note */}
+                  {item.note && (
+                    <span className="relative z-10 mt-2 text-[10.5px] font-medium text-gold/80 max-w-[220px] leading-snug">
+                      {item.note}
+                    </span>
+                  )}
                 </div>
               );
             })}
