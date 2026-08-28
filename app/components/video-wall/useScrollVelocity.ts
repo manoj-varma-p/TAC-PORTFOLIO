@@ -19,16 +19,19 @@ export function useScrollVelocity(targetRef: RefObject<HTMLElement | null>) {
   const stateRef = useRef<ScrollVelocityState>({ intensity: 1, bias: 0 });
   const rawDeltaRef = useRef(0);
 
+  const lastScrollYRef = useRef(0);
+
   useEffect(() => {
-    const el = targetRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      rawDeltaRef.current = e.deltaY;
+    lastScrollYRef.current = window.scrollY;
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollYRef.current;
+      lastScrollYRef.current = currentScrollY;
+      rawDeltaRef.current = delta;
     };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [targetRef]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     let raf: number;
