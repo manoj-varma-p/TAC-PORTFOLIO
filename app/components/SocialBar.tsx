@@ -36,16 +36,19 @@ export default function SocialBar() {
         <div className="hidden h-8 w-px shrink-0 bg-border sm:block" />
 
         {/* Seamless scrolling marquee ticker with gradient masks */}
-        <div className="hidden min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:block">
-          <div className="animate-marquee flex items-center gap-8 text-gray-muted">
+        <div className="hidden min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] md:block">
+          <div className="animate-marquee flex items-center gap-4 py-1">
             {tickerItems.map((brand, idx) => (
-              <span
+              <div
                 key={idx}
-                className="flex shrink-0 items-center gap-8 text-sm font-semibold tracking-wide opacity-75 transition-colors hover:text-gold hover:opacity-100"
+                className="flex shrink-0 items-center gap-4"
               >
-                <span>{brand}</span>
-                <span className="text-[6px] text-border">●</span>
-              </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gradient-to-r from-gold/10 via-amber-500/5 to-gold/10 px-3.5 py-1 text-xs font-bold tracking-wide text-white shadow-[0_0_15px_rgba(255,184,0,0.12)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-gold hover:bg-gold/20 hover:text-gold-bright hover:shadow-[0_0_25px_rgba(255,184,0,0.35)] cursor-default">
+                  <span className="h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_6px_#FFB800]" />
+                  {brand}
+                </span>
+                <span className="text-[9px] text-gold/40">✦</span>
+              </div>
             ))}
           </div>
         </div>
