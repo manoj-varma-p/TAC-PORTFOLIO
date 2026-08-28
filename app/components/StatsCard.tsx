@@ -28,12 +28,12 @@ function StatsItem({
 const stats = [
   {
     icon: <UsersIcon className="h-8 w-8" />,
-    value: "500+",
+    value: "350+",
     label: "Students Trained",
   },
   {
     icon: <BriefcaseIcon className="h-8 w-8" />,
-    value: "50+",
+    value: "1000+",
     label: "Projects Completed",
   },
   {

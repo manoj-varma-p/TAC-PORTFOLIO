@@ -18,13 +18,18 @@ export const metadata: Metadata = {
     "TAC is a creative learning ecosystem where design thinkers turn ideas into impactful digital experiences.",
 };
 
+import ContactModal from "./components/ContactModal";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${manrope.variable} ${dancingScript.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <ContactModal />
+      </body>
     </html>
   );
 }

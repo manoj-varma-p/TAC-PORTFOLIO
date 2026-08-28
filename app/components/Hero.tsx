@@ -1,24 +1,38 @@
 import CTAButton from "./CTAButton";
-import HeroGraphic from "./HeroGraphic";
 import SocialBar from "./SocialBar";
 import StatsCard from "./StatsCard";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden lg:h-[calc(100dvh-80px)]">
+    <section className="relative overflow-x-clip lg:min-h-[calc(100dvh-80px)]">
       {/* ambient background glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute right-[6%] top-0 h-[720px] w-[720px] rounded-full opacity-70"
+        className="pointer-events-none absolute right-[2%] top-[-8%] h-[800px] w-[800px] rounded-full opacity-70 blur-[140px]"
         style={{
           background:
-            "radial-gradient(circle, rgba(255,184,0,0.14) 0%, rgba(255,184,0,0.05) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(255,184,0,0.2) 0%, rgba(255,184,0,0.06) 45%, transparent 70%)",
         }}
       />
 
-      <HeroGraphic variant="desktop" />
+      {/* Desktop Hero Graphic & Refined Backlight */}
+      <div className="animate-graphic pointer-events-none absolute inset-y-0 right-0 hidden w-[50%] items-center justify-end pr-4 lg:flex lg:w-[52%] xl:w-[54%] xl:pr-10 -translate-y-28 xl:-translate-y-36 z-0">
+        <div
+          aria-hidden
+          className="absolute h-[560px] w-[560px] rounded-full opacity-40 blur-[120px]"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,184,0,0.35) 0%, rgba(255,184,0,0.08) 50%, transparent 70%)",
+          }}
+        />
+        <img
+          src="/hero-graphic.png"
+          alt="The Art Code Graphic"
+          className="relative h-auto w-full max-w-[600px] xl:max-w-[640px] object-contain opacity-100 drop-shadow-[0_0_24px_rgba(255,184,0,0.3)]"
+        />
+      </div>
 
-      <div className="relative mx-auto flex h-full max-w-[1400px] flex-col px-6 pb-8 pt-10 lg:justify-between lg:px-[60px] lg:pb-10 lg:pt-12">
+      <div className="relative mx-auto flex min-h-full max-w-[1400px] flex-col px-6 pb-10 pt-8 lg:justify-between lg:px-[60px] lg:pb-16 lg:pt-10">
         <div className="max-w-[640px]">
           <p className="animate-eyebrow text-[13px] font-semibold tracking-[0.3em] text-gold">
             WE DESIGN. WE CODE. WE CREATE.
@@ -36,26 +50,21 @@ export default function Hero() {
           </p>
 
           <div className="animate-cta mt-7">
-            <CTAButton />
+            <CTAButton label="EXPLORE WORK" href="/photoshop" />
           </div>
         </div>
 
-        <div className="mt-6 lg:hidden">
-          <HeroGraphic variant="mobile" />
+        {/* Mobile Hero Graphic */}
+        <div className="animate-graphic pointer-events-none mt-6 flex w-full justify-center lg:hidden">
+          <img
+            src="/hero-graphic.png"
+            alt="The Art Code Graphic"
+            className="h-auto w-[88%] max-w-[360px] object-contain opacity-100 drop-shadow-[0_0_20px_rgba(255,184,0,0.25)]"
+          />
         </div>
 
         <div>
-          {/* script tagline, lower-right */}
-          <div className="animate-graphic relative z-10 hidden text-right lg:mb-8 lg:block">
-            <p className="font-script text-3xl text-white/90">The Art Code</p>
-            <p className="mt-2 text-[11px] font-medium leading-relaxed tracking-[0.2em] text-gray-light">
-              DESIGN IS THINKING
-              <br />
-              MADE VISUAL.
-            </p>
-          </div>
-
-          <div className="relative z-10 mt-6 lg:mt-[10px]">
+          <div className="relative z-10 mt-20 lg:mt-24 xl:mt-28">
             <StatsCard />
             <SocialBar />
           </div>

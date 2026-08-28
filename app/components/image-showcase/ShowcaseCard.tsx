@@ -29,10 +29,11 @@ const ShowcaseCard = ({
       onFocus={onPointerEnter}
       onBlur={onPointerLeave}
       aria-label={item.title ?? "Open image"}
-      className="group relative block shrink-0 cursor-pointer overflow-hidden rounded-lg border border-border bg-white/[0.03] shadow-[0_18px_40px_-24px_rgba(0,0,0,0.8)] outline-none will-change-transform focus-visible:border-gold/70"
+      className="group relative block shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.9)] outline-none will-change-transform focus-visible:border-gold/70 transition-all duration-300 hover:shadow-[0_24px_60px_-12px_rgba(255,184,0,0.3)] hover:border-gold/60"
       style={{
-        width: "clamp(140px, 15vw, 220px)",
-        aspectRatio: "3 / 4",
+        width: "clamp(150px, 16vw, 230px)",
+        aspectRatio: "4 / 5",
+        transformStyle: "preserve-3d",
       }}
     >
       <img

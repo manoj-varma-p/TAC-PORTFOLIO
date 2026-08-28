@@ -4,9 +4,9 @@ import { useEffect, useRef } from "react";
 import ShowcaseCard, { type ShowcaseImage } from "./ShowcaseCard";
 import { useScrollVelocity } from "../video-wall/useScrollVelocity";
 
-const COPIES = 6;
-const OVERLAP = -14;
-const BASE_SPEED = 34;
+const COPIES = 8;
+const CARD_MARGIN = 18;
+const BASE_SPEED = 110;
 
 const clamp = (v: number, min: number, max: number) =>
   Math.min(Math.max(v, min), max);
@@ -14,9 +14,11 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export default function MovingImageTrack({
   items,
+  direction = "left",
   onImageClick,
 }: {
   items: ShowcaseImage[];
+  direction?: "left" | "right";
   onImageClick: (item: ShowcaseImage) => void;
 }) {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -40,15 +42,25 @@ export default function MovingImageTrack({
     const el = stageRef.current;
     if (!el) return;
     const measure = () => {
-      const w = firstCopyRef.current?.getBoundingClientRect().width || 0;
-      wrapWidthRef.current = w > 0 ? w - OVERLAP : 0;
-      intensityScaleRef.current = el.getBoundingClientRect().width < 640 ? 0.5 : 1;
+      // Use offsetWidth/scrollWidth which is invariant to 3D transform/scale distortions
+      const copyEl = firstCopyRef.current;
+      if (!copyEl) return;
+      const w = copyEl.offsetWidth || copyEl.scrollWidth || 0;
+      if (w > 0) {
+        wrapWidthRef.current = w;
+      }
+      intensityScaleRef.current = el.getBoundingClientRect().width < 640 ? 0.6 : 1;
     };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     if (firstCopyRef.current) ro.observe(firstCopyRef.current);
-    return () => ro.disconnect();
+    // Measure again after brief delay to catch post-render layout
+    const t = setTimeout(measure, 100);
+    return () => {
+      ro.disconnect();
+      clearTimeout(t);
+    };
   }, [items]);
 
   useEffect(() => {
@@ -58,15 +70,18 @@ export default function MovingImageTrack({
       lastRef.current = now;
 
       const v = velocityRef.current;
-      const speed = BASE_SPEED * v.intensity + v.bias * BASE_SPEED * 1.2;
+      const dirSign = direction === "left" ? 1 : -1;
+      const speed = (BASE_SPEED * v.intensity + v.bias * BASE_SPEED * 1.2) * dirSign;
       const wrapWidth = wrapWidthRef.current;
 
       if (wrapWidth > 0) {
-        let next = offsetRef.current + speed * dt;
-        next = ((next % wrapWidth) + wrapWidth) % wrapWidth;
-        offsetRef.current = next;
+        offsetRef.current += speed * dt;
+        const normalizedOffset =
+          ((offsetRef.current % wrapWidth) + wrapWidth) % wrapWidth;
+        // Anchor at -2 * wrapWidth so there are always buffer copies on both left and right
+        const translateX = -(normalizedOffset + 2 * wrapWidth);
         if (trackRef.current) {
-          trackRef.current.style.transform = `translate3d(${-next}px, 0, 0)`;
+          trackRef.current.style.transform = `translate3d(${translateX}px, 0, 0)`;
         }
       }
 
@@ -81,8 +96,8 @@ export default function MovingImageTrack({
           if (!card) return;
           const rect = card.getBoundingClientRect();
           const cardCenterX = rect.left + rect.width / 2;
-          const dist = clamp(((cardCenterX - centerX) / halfWidth) * intensity, -1.4, 1.4);
-          const absDist = Math.min(Math.abs(dist), 1);
+          const dist = clamp(((cardCenterX - centerX) / halfWidth) * intensity, -1.25, 1.25);
+          const absDist = Math.min(Math.abs(dist), 1.15);
 
           const isHovered = hoveredKeyRef.current === String(i);
           const targetBoost = isHovered ? 1 : 0;
@@ -90,12 +105,16 @@ export default function MovingImageTrack({
           const boost = lerp(prevBoost, targetBoost, 1 - Math.exp(-dt / 0.15));
           boostRefs.current[i] = boost;
 
-          const rotateY = dist * 30 * (1 - boost * 0.5);
-          const scale = 1 - absDist * 0.3 + boost * 0.08;
-          const translateY = absDist * 22 - boost * 10;
-          const translateZ = -absDist * 120;
-          const opacity = 1 - absDist * 0.3;
-          const zIndex = Math.round((1 - absDist) * 10) + (isHovered ? 20 : 0);
+          // Seamless 3D concave ribbon:
+          // - Left: Large, angled inward (~ +30°), foreground Z
+          // - Center: Receded in depth, facing forward (0°), smaller scale
+          // - Right: Large, angled inward (~ -30°), foreground Z
+          const rotateY = -dist * 30 * (1 - boost * 0.5);
+          const scale = lerp(0.82, 1.14, absDist) + boost * 0.06;
+          const translateZ = lerp(-200, 40, absDist) + boost * 40;
+          const translateY = (1 - absDist) * 12 - boost * 10;
+          const opacity = lerp(0.85, 1, absDist);
+          const zIndex = Math.round(absDist * 20) + (isHovered ? 50 : 0);
 
           card.style.transform = `translateY(${translateY}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
           card.style.opacity = String(opacity);
@@ -119,27 +138,41 @@ export default function MovingImageTrack({
   return (
     <div
       ref={stageRef}
-      className="relative w-full overflow-hidden py-6"
+      className="relative w-full overflow-hidden py-4 sm:py-6"
       style={{
-        perspective: "1000px",
+        perspective: "850px",
+        perspectiveOrigin: "center center",
+        transformStyle: "preserve-3d",
         WebkitMaskImage:
-          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+          "linear-gradient(to right, transparent, black 4%, black 96%, transparent)",
         maskImage:
-          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+          "linear-gradient(to right, transparent, black 4%, black 96%, transparent)",
       }}
     >
-      <div ref={trackRef} className="flex w-max items-center will-change-transform">
+      <div
+        ref={trackRef}
+        className="flex w-max items-center will-change-transform"
+        style={{ transformStyle: "preserve-3d" }}
+      >
         {copies.map((c) => (
           <div
             key={c}
             ref={c === 0 ? firstCopyRef : undefined}
             className="flex shrink-0 items-center"
+            style={{ transformStyle: "preserve-3d" }}
           >
             {items.map((item) => {
               flatIndex += 1;
               const idx = flatIndex;
               return (
-                <div key={`${item.id}-${c}`} style={{ marginLeft: OVERLAP }}>
+                <div
+                  key={`${item.id}-${c}`}
+                  style={{
+                    marginLeft: CARD_MARGIN,
+                    marginRight: CARD_MARGIN,
+                    transformStyle: "preserve-3d",
+                  }}
+                >
                   <ShowcaseCard
                     item={item}
                     onClick={() => onImageClick(item)}

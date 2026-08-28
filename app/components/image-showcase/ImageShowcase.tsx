@@ -33,8 +33,12 @@ export default function ImageShowcase({
 
   if (items.length === 0) return null;
 
+  const half = Math.ceil(items.length / 2);
+  const topItems = items.slice(0, half);
+  const bottomItems = items.slice(half);
+
   return (
-    <section className="relative overflow-hidden pb-16 pt-6 sm:pb-20 sm:pt-8 lg:pb-24 lg:pt-10">
+    <section className="relative overflow-hidden pb-4 pt-6 sm:pb-6 sm:pt-8 lg:pb-8 lg:pt-10">
       <div className="mx-auto max-w-[1400px] px-6 text-center lg:px-[60px]">
         <p className="animate-eyebrow text-[13px] font-semibold tracking-[0.3em] text-gold">
           OUR COMMUNITY
@@ -46,13 +50,19 @@ export default function ImageShowcase({
           A living archive of the designers, coders, and creators shaping TAC
           — one project at a time.
         </p>
-        <div className="animate-cta mt-7 flex justify-center">
-          <CTAButton label="MEET OUR STUDENTS" href="#students" />
-        </div>
       </div>
 
-      <div className="mt-6">
-        <MovingImageTrack items={items} onImageClick={handleClick} />
+      <div className="mt-8 flex flex-col gap-0 sm:gap-2">
+        <MovingImageTrack
+          items={topItems}
+          direction="left"
+          onImageClick={handleClick}
+        />
+        <MovingImageTrack
+          items={bottomItems}
+          direction="right"
+          onImageClick={handleClick}
+        />
       </div>
 
       {openItem && (

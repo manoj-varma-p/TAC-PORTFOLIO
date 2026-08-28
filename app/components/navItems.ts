@@ -5,6 +5,5 @@ export const navItems = [
   { label: "After Effects", href: "/after-effects" },
   { label: "DaVinci Resolve", href: "/davinci-resolve" },
   { label: "Content Shoot", href: "#" },
-  { label: "Content Writing", href: "#" },
-  { label: "Digital Marketing", href: "#" },
+  { label: "Spotlight Saturday", href: "/spotlight-saturday" },
 ];
