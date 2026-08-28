@@ -56,9 +56,9 @@ export default function Preloader() {
             className="pointer-events-none absolute h-[400px] w-[400px] rounded-full bg-gold/[0.08] blur-[120px]"
           />
 
-          <div className="relative flex flex-col items-center">
+          <div className="relative flex flex-col items-center scale-95 sm:scale-100">
             {/* Center Circular Spinner & Logo Hub */}
-            <div className="relative flex h-36 w-36 items-center justify-center">
+            <div className="relative flex h-28 w-28 items-center justify-center">
               {/* Rotating Golden Arc Ring */}
               <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 100 100">
                 {/* Background Track */}
@@ -68,7 +68,7 @@ export default function Preloader() {
                   r="44"
                   fill="none"
                   stroke="rgba(255, 255, 255, 0.08)"
-                  strokeWidth="2.5"
+                  strokeWidth="2"
                 />
                 {/* Active Rotating Gold Arc */}
                 <motion.circle
@@ -77,7 +77,7 @@ export default function Preloader() {
                   r="44"
                   fill="none"
                   stroke="#FFB800"
-                  strokeWidth="3.5"
+                  strokeWidth="3"
                   strokeLinecap="round"
                   strokeDasharray="276"
                   initial={{ strokeDashoffset: 276 }}
@@ -90,16 +90,16 @@ export default function Preloader() {
                     ease: "easeInOut",
                   }}
                   style={{
-                    filter: "drop-shadow(0 0 12px rgba(255, 184, 0, 0.85))",
+                    filter: "drop-shadow(0 0 10px rgba(255, 184, 0, 0.85))",
                     transformOrigin: "50% 50%",
                   }}
                 />
               </svg>
 
               {/* Inner Glow Circle Container */}
-              <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-gold/30 bg-gradient-to-b from-[#161622] via-[#09090f] to-[#040407] shadow-[inset_0_0_20px_rgba(255,184,0,0.2),0_0_30px_rgba(0,0,0,0.9)]">
+              <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-gold/30 bg-gradient-to-b from-[#161622] via-[#09090f] to-[#040407] shadow-[inset_0_0_15px_rgba(255,184,0,0.2),0_0_25px_rgba(0,0,0,0.9)]">
                 {/* Subtle Inner Pulse Halo */}
-                <div className="absolute inset-2 rounded-full bg-gold/10 blur-sm animate-pulse" />
+                <div className="absolute inset-1.5 rounded-full bg-gold/10 blur-sm animate-pulse" />
 
                 {/* TAC Golden Chevron */}
                 <motion.div
@@ -111,19 +111,19 @@ export default function Preloader() {
                   <img
                     src="/logo.png"
                     alt="TAC Logo"
-                    className="h-10 w-10 object-contain drop-shadow-[0_0_15px_rgba(255,184,0,0.85)]"
+                    className="h-8 w-8 object-contain drop-shadow-[0_0_12px_rgba(255,184,0,0.85)]"
                   />
                 </motion.div>
               </div>
             </div>
 
             {/* Typography */}
-            <div className="mt-8 flex flex-col items-center text-center">
+            <div className="mt-6 flex flex-col items-center text-center">
               <motion.h1
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-2xl sm:text-3xl font-black uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold to-amber-300 drop-shadow-[0_0_25px_rgba(255,184,0,0.4)]"
+                className="text-lg sm:text-xl font-black uppercase tracking-[0.32em] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold to-amber-300 drop-shadow-[0_0_20px_rgba(255,184,0,0.35)]"
               >
                 THE ART CODE
               </motion.h1>
@@ -132,20 +132,20 @@ export default function Preloader() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="mt-2.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.45em] text-gray-400"
+                className="mt-2 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400"
               >
                 PORTFOLIO
               </motion.p>
             </div>
 
             {/* Horizontal Progress Bar */}
-            <div className="mt-7 w-48 sm:w-56">
-              <div className="relative h-1 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="mt-5 w-40 sm:w-48">
+              <div className="relative h-[3px] w-full overflow-hidden rounded-full bg-white/10">
                 <motion.div
                   className="h-full bg-gradient-to-r from-amber-500 via-gold to-amber-300 rounded-full"
                   style={{
                     width: `${progress}%`,
-                    boxShadow: "0 0 15px rgba(255, 184, 0, 0.9)",
+                    boxShadow: "0 0 12px rgba(255, 184, 0, 0.9)",
                   }}
                   transition={{ ease: "linear" }}
                 />
