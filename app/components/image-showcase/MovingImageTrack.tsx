@@ -143,10 +143,6 @@ export default function MovingImageTrack({
         perspective: "850px",
         perspectiveOrigin: "center center",
         transformStyle: "preserve-3d",
-        WebkitMaskImage:
-          "linear-gradient(to right, transparent, black 4%, black 96%, transparent)",
-        maskImage:
-          "linear-gradient(to right, transparent, black 4%, black 96%, transparent)",
       }}
     >
       <div
