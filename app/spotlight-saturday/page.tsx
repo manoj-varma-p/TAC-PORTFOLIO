@@ -67,38 +67,38 @@ const GUEST_SPEAKERS_DATA: Omit<GuestSpotlightItem, "id" | "edition" | "imageSrc
     tags: ["Acting", "Dance", "ContentCreation", "TeluguCinema", "Swayambhu", "DigitalCreator"],
   },
   {
-    guestName: "Pooja Sundaram",
-    role: "Principal Typographer & Brand Architect • Studio Form",
-    topic: "Custom Typography & Visual Hierarchy in Global Identities",
+    guestName: "Bhavani Reddy",
+    role: "Digital Creator • Fashion & Lifestyle Influencer",
+    topic: "Lifestyle Storytelling, Fashion & Audience Engagement",
     date: "Weekend Edition #04",
     about: [
-      "Pooja has crafted proprietary typefaces and visual identities for Fortune 500 tech companies and luxury lifestyle brands.",
-      "In her weekend session, she demonstrated optical kerning secrets, bezier curve refinement in Illustrator, and the mathematical beauty of baseline grids.",
+      "With a growing presence in the digital space, Bhavani Reddy has built an engaged audience through content spanning films, fashion, food, and lifestyle. Based in Hyderabad, she has developed a distinctive creator identity that blends entertainment with relatable lifestyle storytelling.",
+      "She brings together fashion, food, travel, and entertainment to create content that connects naturally with her audience. Her journey highlights how a versatile creative identity and an authentic connection with viewers can build a strong presence across today's digital entertainment landscape.",
     ],
     keyAdvice: [
-      "Typography is 90% of visual design. Master type hierarchy, and your layouts will immediately look world-class.",
-      "Always design at extreme scales: test your logos at 16px favicons and 100-foot billboards.",
-      "Custom letterforms give brands an uncopyable visual fingerprint.",
+      "Authenticity and relatable lifestyle storytelling build deep audience loyalty.",
+      "Consistency in aesthetics and tone elevates personal branding in the digital creator space.",
+      "Curate content that naturally integrates lifestyle, fashion, and cultural storytelling.",
     ],
-    quote: "Type is voice made visible.",
-    tags: ["Illustrator", "Typography", "Branding", "VisualSystems"],
+    quote: "When your lifestyle content reflects genuine moments, connection happens effortlessly.",
+    tags: ["Fashion", "Lifestyle", "ContentCreation", "DigitalCreator", "Influencer", "Storytelling"],
   },
   {
-    guestName: "Karthik Ravichandran",
-    role: "Commercial Film Director & Cinematographer",
-    topic: "Directing High-Energy Commercials & Rhythmic Editing",
+    guestName: "Mehaboob Dil Se",
+    role: "Actor • Dancer • YouTuber • Digital Creator",
+    topic: "Dance, High-Energy Content & Mainstream Entertainment",
     date: "Weekend Edition #05",
     about: [
-      "Having directed commercials for global sports and automotive brands, Karthik shared how he choreographs fast-paced visual storytelling in Premiere Pro.",
-      "He showed our students raw project timelines, dissecting audio ducking, match-action cuts, and camera movement psychology that drives high retention.",
+      "With a strong presence in Telugu digital entertainment, Mehaboob Shaik, popularly known as Mehaboob Dil Se, built his audience through dance, music, and entertainment content on YouTube and social media. His popularity grew further through his participation in Bigg Boss Telugu 4, where he became one of the show's recognizable contestants.",
+      "He has also explored acting through Telugu films and web projects, including Vijetha, S5, and the web series Guntur Mirchi. His journey highlights how creativity across dance, digital content, and performance can build a strong connection with a young audience and open doors into mainstream entertainment.",
     ],
     keyAdvice: [
-      "Cut for emotion and rhythm first, continuity second.",
-      "Sound design accounts for over half of your video's emotional punch.",
-      "Always capture practical textures and lens flares on set whenever possible.",
+      "Dynamic physical performance and dance bring unstoppable energy to digital content.",
+      "Engage consistently with your audience to build a loyal, long-term community.",
+      "Use digital storytelling as a launching pad for television and feature film opportunities.",
     ],
-    quote: "Pacing is the heartbeat of film; one frame can change the entire emotional rhythm.",
-    tags: ["PremierePro", "Directing", "Editing", "SoundDesign"],
+    quote: "When passion meets discipline on the dance floor, the world watches with you.",
+    tags: ["MehaboobDilSe", "Dancer", "Actor", "BiggBossTelugu", "YouTubeCreator", "DigitalEntertainment"],
   },
   {
     guestName: "Meera Krishnan",
@@ -283,7 +283,7 @@ function getSpotlightImages(): string[] {
   for (const dir of candidateDirs) {
     try {
       if (fs.existsSync(dir)) {
-        const list = fs.readdirSync(dir);
+        const list = fs.readdirSync(/*turbopackIgnore: true*/ dir);
         const valid = list
           .filter((f) => /\.(jpe?g|png|webp|svg)$/i.test(f))
           .map((file) => ({ dir, file }));

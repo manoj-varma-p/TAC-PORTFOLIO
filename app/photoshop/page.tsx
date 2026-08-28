@@ -36,7 +36,7 @@ export default function PhotoshopPage() {
       <Navbar />
       <main className="relative flex flex-1 flex-col">
         {images.length > 0 ? (
-          <div className="relative mt-8 h-[70vh] min-h-[520px] w-full">
+          <div className="relative h-[calc(100vh-100px)] min-h-[600px] w-full">
             <DomeGallery
               images={images}
               fit={1.05}
