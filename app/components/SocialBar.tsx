@@ -1,13 +1,18 @@
 import { DribbbleIcon, InstagramIcon, LinkedInIcon } from "./icons";
 
 const brands = [
+  "Runway",
+  "Seedance",
+  "Kling AI",
+  "Xfield",
+  "Meigen",
+  "Magnite",
+  "Getty Images",
   "Adobe",
-  "Premiere Pro",
-  "Photoshop",
-  "Illustrator",
-  "Behance",
-  "DaVinci Resolve",
-  "After Effects",
+  "Media.io",
+  "ChatGPT",
+  "Claude",
+  "Gemini AI",
 ];
 
 export default function SocialBar() {
@@ -19,12 +24,12 @@ export default function SocialBar() {
       <div className="flex min-w-0 flex-1 items-center gap-6">
         <div className="flex shrink-0 items-center gap-3">
           <span className="text-2xl font-extrabold leading-none text-gold">
-            07+
+            10K
           </span>
           <span className="text-[11px] font-medium leading-snug tracking-[0.1em] text-gray-muted">
-            YEARS OF
+            WORTH OF
             <br />
-            EXPERIENCE
+            TOOLS
           </span>
         </div>
 
