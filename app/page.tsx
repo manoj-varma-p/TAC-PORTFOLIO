@@ -28,33 +28,44 @@ function getStudentImages(): ShowcaseImage[] {
     }));
 }
 
+const TUTOR_FULL_NAMES: Record<string, string> = {
+  lokesh: "Lokesh Dama",
+  vali: "Vali Sayyad",
+  durga: "Durga Sai",
+  jagadesh: "Jagadeesh",
+  raj: "Raj Krish",
+  sai: "Sai Somayajulu",
+  sasi: "Seshi Kiran",
+};
+
+const TUTOR_ORDER = ["lokesh", "vali", "durga", "jagadesh", "raj", "sai", "sasi"];
+
 function getTutorImages(): MorphItem[] {
   const dir = path.join(process.cwd(), "public", "gallery", "tutors");
   let files: string[] = [];
   try {
-    files = fs.readdirSync(dir);
+    files = fs.readdirSync(/*turbopackIgnore: true*/ dir);
   } catch {
     return [];
   }
-  const preferredOrder = ["lokesh", "vali", "durga"];
   return files
     .filter((file) => /\.(jpe?g|png|webp)$/i.test(file))
     .sort((a, b) => {
-      const nameA = a.replace(/\.(jpe?g|png|webp)$/i, "").toLowerCase();
-      const nameB = b.replace(/\.(jpe?g|png|webp)$/i, "").toLowerCase();
-      const idxA = preferredOrder.indexOf(nameA);
-      const idxB = preferredOrder.indexOf(nameB);
+      const keyA = a.replace(/\.(jpe?g|png|webp)$/i, "").toLowerCase();
+      const keyB = b.replace(/\.(jpe?g|png|webp)$/i, "").toLowerCase();
+      const idxA = TUTOR_ORDER.indexOf(keyA);
+      const idxB = TUTOR_ORDER.indexOf(keyB);
       if (idxA !== -1 && idxB !== -1) return idxA - idxB;
       if (idxA !== -1) return -1;
       if (idxB !== -1) return 1;
-      return nameA.localeCompare(nameB);
+      return keyA.localeCompare(keyB);
     })
     .map((file) => {
-      const rawName = file.replace(/\.(jpe?g|png|webp)$/i, "").replace(/[-_]/g, " ");
-      const formattedName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+      const key = file.replace(/\.(jpe?g|png|webp)$/i, "").toLowerCase();
+      const fullName = TUTOR_FULL_NAMES[key] || file.replace(/\.(jpe?g|png|webp)$/i, "").replace(/[-_]/g, " ");
       return {
         image: `/gallery/tutors/${file}`,
-        caption: formattedName.length > 0 ? formattedName : "TAC Instructor & Mentor",
+        caption: fullName,
       };
     });
 }

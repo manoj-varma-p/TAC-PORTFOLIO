@@ -171,29 +171,30 @@ export default function TutorsSection({
         <div className="mt-8 -mx-3 flex items-center gap-2.5 overflow-x-auto px-3 py-3 scrollbar-none">
           {tutorList.map((tutor, idx) => {
             const isActive = idx === currentIndex;
-            const rawName = tutor.caption?.split("—")[0]?.trim() || `Mentor ${idx + 1}`;
-            const name = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+            const fullName = tutor.caption || `Mentor ${idx + 1}`;
             return (
               <button
                 key={idx}
                 type="button"
                 onClick={() => goToSlide(idx)}
-                className={`group m-0.5 flex shrink-0 items-center gap-2.5 rounded-full border px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+                className={`group m-0.5 flex shrink-0 items-center gap-2.5 rounded-full border px-4 py-2 text-[13px] font-bold tracking-wide transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? "border-gold bg-gold/15 text-gold shadow-[0_0_20px_rgba(255,184,0,0.35)] scale-105"
-                    : "border-white/10 bg-white/[0.03] text-gray-light hover:border-white/30 hover:bg-white/[0.06] hover:text-white"
+                    ? "border-gold bg-gradient-to-r from-gold/25 via-gold/15 to-gold/25 text-white shadow-[0_0_25px_rgba(255,184,0,0.45)] ring-1 ring-gold/60 scale-105"
+                    : "border-white/15 bg-white/[0.05] text-gray-200 hover:border-gold/50 hover:bg-gold/10 hover:text-gold"
                 }`}
               >
                 <span
-                  className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
+                  className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-black transition-all ${
                     isActive
-                      ? "bg-gold text-black"
-                      : "bg-white/10 text-gray-light group-hover:bg-white/20 group-hover:text-white"
+                      ? "bg-gold text-black shadow-[0_0_10px_#FFB800]"
+                      : "bg-white/10 text-gray-300 group-hover:bg-gold group-hover:text-black"
                   }`}
                 >
                   {String(idx + 1).padStart(2, "0")}
                 </span>
-                <span>{name}</span>
+                <span className={isActive ? "text-gold-bright font-extrabold" : "font-semibold"}>
+                  {fullName}
+                </span>
               </button>
             );
           })}
