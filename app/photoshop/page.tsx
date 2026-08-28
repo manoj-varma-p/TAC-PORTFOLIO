@@ -20,11 +20,11 @@ function getPhotoshopImages() {
     return [];
   }
   return files
-    .filter((file) => /\.(svg|jpe?g)$/i.test(file))
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file))
     .sort()
     .map((file) => ({
       src: `/gallery/photoshop/${file}`,
-      alt: file.replace(/\.(svg|jpe?g)$/i, "").replace(/[-_]/g, " "),
+      alt: file.replace(/\.(jpe?g|png|webp)$/i, "").replace(/[-_]/g, " "),
     }));
 }
 
