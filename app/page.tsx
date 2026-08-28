@@ -3,6 +3,7 @@ import path from "node:path";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import ImageShowcase from "./components/image-showcase/ImageShowcase";
+import MoreFromTac from "./components/MoreFromTac";
 import TutorsSection from "./components/TutorsSection";
 import type { MorphItem } from "./components/MorphSlider";
 import { getPlaceholderStudents } from "./components/image-showcase/ImageData";
@@ -82,6 +83,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <ImageShowcase items={students} />
+        <MoreFromTac />
         <TutorsSection items={localTutors.length > 0 ? localTutors : undefined} />
       </main>
     </div>
