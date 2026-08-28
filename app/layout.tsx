@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 };
 
 import ContactModal from "./components/ContactModal";
+import Preloader from "./components/Preloader";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${manrope.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Preloader />
         {children}
         <ContactModal />
       </body>
