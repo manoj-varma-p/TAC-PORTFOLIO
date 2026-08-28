@@ -121,19 +121,16 @@ export default function PlacementStatsSection() {
           </div>
         </motion.div>
 
-        {/* Bottom Verification Note & CTA */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <p className="text-xs text-gray-muted">
-            Verified student hiring records &bull; Verified alumni network across 50+ media agencies &amp; film studios
-          </p>
-
-          <button
-            type="button"
-            onClick={openContactModal}
-            className="rounded-full border border-gold/50 bg-gold px-6 py-2.5 text-xs font-extrabold uppercase tracking-wider text-black shadow-[0_0_20px_rgba(255,184,0,0.35)] hover:scale-105 hover:bg-gold-bright transition-all cursor-pointer"
-          >
-            Apply for Next Cohort →
-          </button>
+        {/* Highlighted Verification Content */}
+        <div className="mt-8 flex items-center justify-center text-center">
+          <div className="inline-flex flex-wrap items-center justify-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-r from-gold/15 via-gold/25 to-gold/15 px-6 py-3 shadow-[0_0_30px_rgba(255,184,0,0.25)] backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-gold animate-pulse shrink-0" />
+            <p className="text-xs sm:text-sm font-bold tracking-wide text-white">
+              <span className="text-gold-bright font-extrabold">Verified Student Hiring Records</span>
+              <span className="mx-2 text-gold/60">&bull;</span>
+              <span>Verified Alumni Network Across <span className="text-gold-bright font-extrabold">50+ Media Agencies &amp; Film Studios</span></span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
