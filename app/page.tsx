@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import ImageShowcase from "./components/image-showcase/ImageShowcase";
 import MoreFromTac from "./components/MoreFromTac";
 import TutorsSection from "./components/TutorsSection";
+import PlacementStatsSection from "./components/PlacementStatsSection";
 import type { MorphItem } from "./components/MorphSlider";
 import { getPlaceholderStudents } from "./components/image-showcase/ImageData";
 import type { ShowcaseImage } from "./components/image-showcase/ShowcaseCard";
@@ -85,6 +86,7 @@ export default function Home() {
         <ImageShowcase items={students} />
         <MoreFromTac />
         <TutorsSection items={localTutors.length > 0 ? localTutors : undefined} />
+        <PlacementStatsSection />
       </main>
     </div>
   );
