@@ -134,7 +134,7 @@ export default function Preloader() {
                 transition={{ duration: 0.5, delay: 0.4 }}
                 className="mt-2.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.45em] text-gray-400"
               >
-                PREMIUM LEARNING
+                PORTFOLIO
               </motion.p>
             </div>
 
