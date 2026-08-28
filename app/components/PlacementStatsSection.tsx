@@ -130,8 +130,8 @@ export default function PlacementStatsSection() {
           </div>
         </motion.div>
 
-        {/* Highlighted Verification Content */}
-        <div className="mt-8 flex items-center justify-center text-center">
+        {/* Highlighted Verification Content & Contact CTA */}
+        <div className="mt-8 flex flex-col items-center justify-center gap-5 text-center">
           <div className="inline-flex flex-wrap items-center justify-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-r from-gold/15 via-gold/25 to-gold/15 px-6 py-3 shadow-[0_0_30px_rgba(255,184,0,0.25)] backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse shrink-0" />
             <p className="text-xs sm:text-sm font-bold tracking-wide text-white">
@@ -140,6 +140,16 @@ export default function PlacementStatsSection() {
               <span>Verified Alumni Network Across <span className="text-gold-bright font-extrabold">50+ Media Agencies &amp; Film Studios</span></span>
             </p>
           </div>
+
+          {/* Contact CTA Button */}
+          <button
+            type="button"
+            onClick={openContactModal}
+            className="group inline-flex items-center gap-2.5 rounded-full border border-gold/60 bg-gradient-to-r from-gold via-gold-bright to-gold px-7 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-black shadow-[0_0_30px_rgba(255,184,0,0.45)] hover:scale-105 hover:shadow-[0_0_40px_rgba(255,184,0,0.65)] transition-all cursor-pointer"
+          >
+            <span>Contact Us</span>
+            <span className="transition-transform group-hover:translate-x-1 font-bold">→</span>
+          </button>
         </div>
       </div>
     </section>
