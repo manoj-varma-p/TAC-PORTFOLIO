@@ -135,7 +135,7 @@ export default function MovingImageTrack({
   return (
     <div
       ref={stageRef}
-      className="relative w-full overflow-hidden py-8 sm:py-12"
+      className="relative w-full py-4 sm:py-6"
       style={{
         perspective: "850px",
         perspectiveOrigin: "center center",

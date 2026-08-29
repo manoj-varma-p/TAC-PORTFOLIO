@@ -52,7 +52,7 @@ export default function ImageShowcase({
         </p>
       </div>
 
-      <div className="relative mt-8 flex flex-col gap-0 sm:gap-2">
+      <div className="relative mt-12 flex flex-col gap-0 sm:gap-2 sm:mt-16">
         {/* Soft edge gradient fade on Left & Right so cards enter and exit gracefully with zero sharp cuts */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-16 sm:w-28 lg:w-44 bg-gradient-to-r from-bg via-bg/85 to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-16 sm:w-28 lg:w-44 bg-gradient-to-l from-bg via-bg/85 to-transparent" />
