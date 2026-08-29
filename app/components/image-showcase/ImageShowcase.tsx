@@ -38,7 +38,7 @@ export default function ImageShowcase({
   const bottomItems = items.slice(half);
 
   return (
-    <section className="relative overflow-hidden pb-4 pt-6 sm:pb-6 sm:pt-8 lg:pb-8 lg:pt-10">
+    <section className="relative overflow-hidden pb-16 pt-8 sm:pb-20 sm:pt-12 lg:pb-24 lg:pt-14">
       <div className="mx-auto max-w-[1400px] px-6 text-center lg:px-[60px]">
         <p className="animate-eyebrow text-[13px] font-semibold tracking-[0.3em] text-gold">
           OUR COMMUNITY
@@ -52,7 +52,11 @@ export default function ImageShowcase({
         </p>
       </div>
 
-      <div className="mt-8 flex flex-col gap-0 sm:gap-2">
+      <div className="relative mt-8 flex flex-col gap-0 sm:gap-2">
+        {/* Soft edge gradient fade on Left & Right so cards enter and exit gracefully with zero sharp cuts */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-30 w-16 sm:w-28 lg:w-44 bg-gradient-to-r from-bg via-bg/85 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-30 w-16 sm:w-28 lg:w-44 bg-gradient-to-l from-bg via-bg/85 to-transparent" />
+
         <MovingImageTrack
           items={topItems}
           direction="left"
