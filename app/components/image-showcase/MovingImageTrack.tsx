@@ -106,14 +106,11 @@ export default function MovingImageTrack({
           boostRefs.current[i] = boost;
 
           // Seamless 3D concave ribbon:
-          // - Left: Large, angled inward (~ +30°), foreground Z
-          // - Center: Receded in depth, facing forward (0°), smaller scale
-          // - Right: Large, angled inward (~ -30°), foreground Z
-          const rotateY = -dist * 30 * (1 - boost * 0.5);
-          const scale = lerp(0.82, 1.14, absDist) + boost * 0.06;
-          const translateZ = lerp(-200, 40, absDist) + boost * 40;
-          const translateY = (1 - absDist) * 12 - boost * 10;
-          const opacity = lerp(0.85, 1, absDist);
+          const rotateY = -dist * 24 * (1 - boost * 0.5);
+          const scale = lerp(0.88, 1.04, absDist) + boost * 0.04;
+          const translateZ = lerp(-140, 30, absDist) + boost * 30;
+          const translateY = (1 - absDist) * 6 - boost * 4;
+          const opacity = lerp(0.88, 1, absDist);
           const zIndex = Math.round(absDist * 20) + (isHovered ? 50 : 0);
 
           card.style.transform = `translateY(${translateY}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
@@ -138,7 +135,7 @@ export default function MovingImageTrack({
   return (
     <div
       ref={stageRef}
-      className="relative w-full overflow-hidden py-4 sm:py-6"
+      className="relative w-full overflow-hidden py-8 sm:py-12"
       style={{
         perspective: "850px",
         perspectiveOrigin: "center center",
