@@ -27,13 +27,13 @@ const navIcons: Record<string, ReactNode> = {
 
 export default function Navbar() {
   return (
-    <header className="animate-navbar sticky top-0 z-20 border-b border-border/60 bg-bg/85 backdrop-blur-sm lg:h-20">
-      <div className="relative mx-auto flex h-full max-w-[1400px] items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-10 lg:py-0">
+    <header className="animate-navbar sticky top-0 z-20 w-full border-b border-border/60 bg-bg/85 backdrop-blur-sm lg:h-20">
+      <div className="relative flex h-full w-full items-center justify-between gap-4 px-4 py-3 sm:px-6 md:px-8 lg:px-10 lg:py-0">
         <Link href="/" className="flex items-center shrink-0">
           <img
             src="/logo.png"
             alt="TAC - The Art Code"
-            className="h-12 sm:h-13 w-auto object-contain transition-transform duration-200 hover:scale-105"
+            className="h-11 sm:h-12 lg:h-13 w-auto object-contain transition-transform duration-200 hover:scale-105"
           />
         </Link>
 
