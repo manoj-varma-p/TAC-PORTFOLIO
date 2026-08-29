@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useCallback } from "react";
 import { useGesture } from "@use-gesture/react";
 
-type ImageItem = string | { src: string; alt?: string };
+type ImageItem = string | { src: string; fullSrc?: string; alt?: string };
 
 type DomeGalleryProps = {
   images?: ImageItem[];
@@ -30,6 +30,7 @@ type DomeGalleryProps = {
 
 type ItemDef = {
   src: string;
+  fullSrc?: string;
   alt: string;
   x: number;
   y: number;
@@ -82,9 +83,13 @@ function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
 
   const normalizedImages = pool.map((image) => {
     if (typeof image === "string") {
-      return { src: image, alt: "" };
+      return { src: image, fullSrc: image, alt: "" };
     }
-    return { src: image.src || "", alt: image.alt || "" };
+    return {
+      src: image.src || "",
+      fullSrc: image.fullSrc || image.src || "",
+      alt: image.alt || "",
+    };
   });
 
   const usedImages = Array.from(
@@ -108,6 +113,7 @@ function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
   return coords.map((c, i) => ({
     ...c,
     src: usedImages[i].src,
+    fullSrc: usedImages[i].fullSrc,
     alt: usedImages[i].alt,
   }));
 }
@@ -681,7 +687,10 @@ export default function DomeGallery({
     overlay.className = "enlarge";
     overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; background:#000; box-shadow:0 10px 30px rgba(0,0,0,.35);`;
     const rawSrc =
-      parent.dataset.src || (el.querySelector("img") as HTMLImageElement)?.src || "";
+      parent.dataset.fullSrc ||
+      parent.dataset.src ||
+      (el.querySelector("img") as HTMLImageElement)?.src ||
+      "";
     const rawAlt =
       parent.dataset.alt || (el.querySelector("img") as HTMLImageElement)?.alt || "";
     const img = document.createElement("img");
@@ -872,6 +881,7 @@ export default function DomeGallery({
                   key={`${it.x},${it.y},${i}`}
                   className="sphere-item absolute m-auto"
                   data-src={it.src}
+                  data-full-src={it.fullSrc || it.src}
                   data-alt={it.alt}
                   data-offset-x={it.x}
                   data-offset-y={it.y}
@@ -926,6 +936,8 @@ export default function DomeGallery({
                       <img
                         src={it.src}
                         draggable={false}
+                        loading="eager"
+                        decoding="async"
                         alt={it.alt}
                         className="w-full h-full object-contain pointer-events-none"
                         style={{

@@ -55,7 +55,9 @@ export default function Navbar() {
         </nav>
 
         <a
-          href="#contact"
+          href="https://wa.me/919848000274"
+          target="_blank"
+          rel="noopener noreferrer"
           className="group hidden shrink-0 items-center gap-2 rounded-[4px] border border-gold/70 px-5 py-2.5 text-[13px] font-semibold tracking-wide text-white transition-all hover:-translate-y-0.5 hover:border-gold hover:shadow-[0_0_20px_rgba(255,184,0,0.35)] sm:flex"
         >
           LET&apos;S TALK

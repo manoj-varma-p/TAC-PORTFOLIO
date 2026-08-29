@@ -2,34 +2,35 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
-import DriftWall from "../components/DriftWall";
+import PremiereWall, { type PremiereWallItem } from "../components/PremiereWall";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Premiere Pro | TAC",
-  description: "A drifting wall of Premiere Pro edits from TAC.",
+  description: "A seamless 3-row showcase of Premiere Pro edits from TAC.",
 };
 
-const YOUTUBE_FALLBACK_IDS = [
-  "jNQXAC9IVRw",
-  "kJQP7kiw5Fk",
-  "9bZkp7q19f0",
-  "YQHsXMglC9A",
-  "RgKAFK5djSk",
-  "OPf0YbXqDm0",
-  "fJ9rUzIMcZQ",
-  "hT_nvWreIhg",
-  "JGwWNGJdvx8",
-  "CevxZvSJLk8",
-  "60ItHLz5WEA",
-  "pRpeEdMmmQ0",
-  "09R8_2nJtjg",
-  "ru0K8uYEZWw",
-  "papuvlVeZg8",
+const YOUTUBE_VIDEOS: { id: string; title: string }[] = [
+  { id: "5owBk5QeZEE", title: "Premiere Pro Short Edit" },
+  { id: "jNQXAC9IVRw", title: "Cinematic Cut 01" },
+  { id: "kJQP7kiw5Fk", title: "Rhythm & Beat Sync" },
+  { id: "9bZkp7q19f0", title: "Motion Storytelling" },
+  { id: "YQHsXMglC9A", title: "Dynamic Transitions" },
+  { id: "RgKAFK5djSk", title: "High-Energy Montage" },
+  { id: "OPf0YbXqDm0", title: "Grading & Pacing" },
+  { id: "fJ9rUzIMcZQ", title: "Sound Design & Foley" },
+  { id: "hT_nvWreIhg", title: "Visual Narrative" },
+  { id: "JGwWNGJdvx8", title: "Commercial Reel" },
+  { id: "CevxZvSJLk8", title: "VFX Integration" },
+  { id: "60ItHLz5WEA", title: "Color Space Master" },
+  { id: "pRpeEdMmmQ0", title: "Short Form Mastery" },
+  { id: "09R8_2nJtjg", title: "Editorial Flow" },
+  { id: "ru0K8uYEZWw", title: "Fast-Paced Action Cut" },
+  { id: "papuvlVeZg8", title: "Cinematic Trailer" },
 ];
 
-function getLocalPremiereProVideos() {
+function getLocalPremiereProVideos(): PremiereWallItem[] {
   const dir = path.join(process.cwd(), "public", "gallery", "premiere-pro");
   let files: string[] = [];
   try {
@@ -46,12 +47,12 @@ function getLocalPremiereProVideos() {
     }));
 }
 
-function getYouTubeFallbackVideos() {
-  return YOUTUBE_FALLBACK_IDS.map((id) => ({
-    youtubeId: id,
-    image: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
-    href: `https://www.youtube.com/watch?v=${id}`,
-    title: "YouTube video",
+function getYouTubeFallbackVideos(): PremiereWallItem[] {
+  return YOUTUBE_VIDEOS.map((item) => ({
+    youtubeId: item.id,
+    image: `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`,
+    href: `https://www.youtube.com/watch?v=${item.id}`,
+    title: item.title,
   }));
 }
 
@@ -62,28 +63,10 @@ export default function PremiereProPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg text-foreground">
       <Navbar />
-      <main className="relative flex flex-1 flex-col">
+      <main className="relative flex flex-1 flex-col justify-center overflow-hidden py-4 sm:py-6">
         {items.length > 0 ? (
-          <div className="relative mt-8 h-[75vh] min-h-[560px] w-full">
-            <DriftWall
-              items={items}
-              columns={5}
-              tileWidth={280}
-              tileHeight={178}
-              gap={22}
-              tilt={0}
-              turn={0}
-              perspective={1200}
-              depth={0}
-              speed={36}
-              direction="up"
-              variance={0.45}
-              parallax={0}
-              lift={64}
-              fade={0.6}
-              dim={1}
-              overlayColor="transparent"
-            />
+          <div className="relative mx-auto flex h-[calc(100vh-6.5rem)] min-h-[500px] max-h-[820px] w-full flex-col px-3 sm:px-6">
+            <PremiereWall items={items} />
           </div>
         ) : (
           <div className="flex flex-1 items-center justify-center px-6 pb-24">

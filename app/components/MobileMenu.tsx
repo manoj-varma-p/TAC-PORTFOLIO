@@ -43,7 +43,10 @@ export default function MobileMenu() {
             ))}
           </nav>
           <a
-            href="#contact"
+            href="https://wa.me/919848000274"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
             className="mt-6 flex w-fit items-center gap-2 rounded-[4px] border border-gold/70 px-5 py-2.5 text-[13px] font-semibold tracking-wide text-white"
           >
             LET&apos;S TALK

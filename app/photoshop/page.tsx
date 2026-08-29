@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 function getPhotoshopImages() {
   const dir = path.join(process.cwd(), "public", "gallery", "photoshop");
+  const thumbsDir = path.join(dir, "thumbs");
   let files: string[] = [];
   try {
     files = fs.readdirSync(dir);
@@ -20,12 +21,16 @@ function getPhotoshopImages() {
     return [];
   }
   return files
-    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file))
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file) && file !== "thumbs")
     .sort()
-    .map((file) => ({
-      src: `/gallery/photoshop/${file}`,
-      alt: file.replace(/\.(jpe?g|png|webp)$/i, "").replace(/[-_]/g, " "),
-    }));
+    .map((file) => {
+      const hasThumb = fs.existsSync(path.join(thumbsDir, file));
+      return {
+        src: hasThumb ? `/gallery/photoshop/thumbs/${file}` : `/gallery/photoshop/${file}`,
+        fullSrc: `/gallery/photoshop/${file}`,
+        alt: file.replace(/\.(jpe?g|png|webp)$/i, "").replace(/[-_]/g, " "),
+      };
+    });
 }
 
 export default function PhotoshopPage() {
