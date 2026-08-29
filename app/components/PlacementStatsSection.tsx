@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import { openContactModal } from "./ContactModal";
 
 interface StatBlock {
   value: string;
@@ -142,14 +141,15 @@ export default function PlacementStatsSection() {
           </div>
 
           {/* Contact CTA Button */}
-          <button
-            type="button"
-            onClick={openContactModal}
+          <a
+            href="https://wa.me/919848000274"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2.5 rounded-full border border-gold/60 bg-gradient-to-r from-gold via-gold-bright to-gold px-7 py-3 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-black shadow-[0_0_30px_rgba(255,184,0,0.45)] hover:scale-105 hover:shadow-[0_0_40px_rgba(255,184,0,0.65)] transition-all cursor-pointer"
           >
             <span>Contact Us</span>
             <span className="transition-transform group-hover:translate-x-1 font-bold">→</span>
-          </button>
+          </a>
         </div>
       </div>
     </section>

@@ -298,13 +298,14 @@ export default function SpotlightShowcase({ items }: SpotlightShowcaseProps) {
             Every weekend is a rare opportunity to connect directly with creative industry pioneers, ask questions in live AMAs, and level up your craft.
           </p>
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={openContactModal}
-              className="rounded-lg bg-gold px-8 py-3.5 text-sm font-bold text-black shadow-[0_0_30px_rgba(255,184,0,0.4)] transition-all hover:scale-105 hover:bg-gold-bright cursor-pointer"
+            <a
+              href="https://wa.me/919848000274"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-gold px-8 py-3.5 text-sm font-bold text-black shadow-[0_0_30px_rgba(255,184,0,0.4)] transition-all hover:scale-105 hover:bg-gold-bright cursor-pointer inline-block"
             >
-              Get In Touch & Reserve a Seat
-            </button>
+              Get In Touch &amp; Reserve a Seat
+            </a>
           </div>
         </div>
       </section>

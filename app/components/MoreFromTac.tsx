@@ -153,14 +153,15 @@ export default function MoreFromTac() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={openContactModal}
+          <a
+            href="https://wa.me/919848000274"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group hidden md:inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-gold hover:bg-gold hover:text-black transition-all cursor-pointer shadow-sm hover:shadow-[0_0_20px_rgba(255,184,0,0.3)]"
           >
             Inquire About Programs
             <span className="transition-transform group-hover:translate-x-1">→</span>
-          </button>
+          </a>
         </div>
 
         {/* Clean, Animated 7-Card Grid with Relatable Imagery */}
