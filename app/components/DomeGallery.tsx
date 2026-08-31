@@ -63,8 +63,8 @@ const getDataNumber = (el: HTMLElement, name: string, fallback: number) => {
 
 function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
   const xCols = Array.from({ length: seg }, (_, i) => -seg + i * 2);
-  const evenYs = [-4, -2, 0, 2, 4];
-  const oddYs = [-3, -1, 1, 3, 5];
+  const evenYs = [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10];
+  const oddYs = [-9, -7, -5, -3, -1, 1, 3, 5, 7, 9];
 
   const coords = xCols.flatMap((x, c) => {
     const ys = c % 2 === 0 ? evenYs : oddYs;
@@ -327,11 +327,7 @@ export default function DomeGallery({
           inertiaRAF.current = null;
           return;
         }
-        const nextX = clamp(
-          rotationRef.current.x - vY / 200,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
-        );
+        const nextX = wrapAngleSigned(rotationRef.current.x - vY / 200);
         const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
         rotationRef.current = { x: nextX, y: nextY };
         applyTransform(nextX, nextY);
@@ -340,7 +336,7 @@ export default function DomeGallery({
       stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
     },
-    [dragDampening, maxVerticalRotationDeg, stopInertia]
+    [dragDampening, stopInertia]
   );
 
   const autoRotateRAF = useRef<number | null>(null);
@@ -363,8 +359,11 @@ export default function DomeGallery({
         const nextY = wrapAngleSigned(
           rotationRef.current.y + (autoRotateSpeed * dt) / 1000
         );
-        rotationRef.current = { x: rotationRef.current.x, y: nextY };
-        applyTransform(rotationRef.current.x, nextY);
+        const nextX = wrapAngleSigned(
+          rotationRef.current.x + ((autoRotateSpeed * 0.35) * dt) / 1000
+        );
+        rotationRef.current = { x: nextX, y: nextY };
+        applyTransform(nextX, nextY);
       }
 
       autoRotateRAF.current = requestAnimationFrame(step);
@@ -418,12 +417,12 @@ export default function DomeGallery({
           if (dist2 > 16) movedRef.current = true;
         }
 
-        const nextX = clamp(
-          startRotRef.current.x - dyTotal / dragSensitivity,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
+        const nextX = wrapAngleSigned(
+          startRotRef.current.x - dyTotal / dragSensitivity
         );
-        const nextY = startRotRef.current.y + dxTotal / dragSensitivity;
+        const nextY = wrapAngleSigned(
+          startRotRef.current.y + dxTotal / dragSensitivity
+        );
 
         const cur = rotationRef.current;
         if (cur.x !== nextX || cur.y !== nextY) {
