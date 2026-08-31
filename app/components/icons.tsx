@@ -363,7 +363,13 @@ export function TrophyIcon({ className }: IconProps) {
 
 export function GlobeIcon({ className }: IconProps) {
   return (
-    <svg viewBox="0 0 28 28" className={className} fill="none" stroke="currentColor" strokeWidth="1.4">
+    <svg
+      viewBox="0 0 28 28"
+      className={`${className || "h-8 w-8"} animate-spin-360 transition-transform duration-500`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+    >
       <circle cx="14" cy="14" r="9.5" />
       <path d="M14 4.5c2.7 2.6 4.2 6 4.2 9.5s-1.5 6.9-4.2 9.5c-2.7-2.6-4.2-6-4.2-9.5s1.5-6.9 4.2-9.5Z" />
       <path d="M5 11h18M5 17h18" />

@@ -11,23 +11,16 @@ export const metadata: Metadata = {
   description: "A seamless 3-row showcase of Premiere Pro edits from TAC.",
 };
 
-const YOUTUBE_VIDEOS: { id: string; title: string }[] = [
-  { id: "5owBk5QeZEE", title: "Premiere Pro Short Edit" },
-  { id: "jNQXAC9IVRw", title: "Cinematic Cut 01" },
-  { id: "kJQP7kiw5Fk", title: "Rhythm & Beat Sync" },
-  { id: "9bZkp7q19f0", title: "Motion Storytelling" },
-  { id: "YQHsXMglC9A", title: "Dynamic Transitions" },
-  { id: "RgKAFK5djSk", title: "High-Energy Montage" },
-  { id: "OPf0YbXqDm0", title: "Grading & Pacing" },
-  { id: "fJ9rUzIMcZQ", title: "Sound Design & Foley" },
-  { id: "hT_nvWreIhg", title: "Visual Narrative" },
-  { id: "JGwWNGJdvx8", title: "Commercial Reel" },
-  { id: "CevxZvSJLk8", title: "VFX Integration" },
-  { id: "60ItHLz5WEA", title: "Color Space Master" },
-  { id: "pRpeEdMmmQ0", title: "Short Form Mastery" },
-  { id: "09R8_2nJtjg", title: "Editorial Flow" },
-  { id: "ru0K8uYEZWw", title: "Fast-Paced Action Cut" },
-  { id: "papuvlVeZg8", title: "Cinematic Trailer" },
+const YOUTUBE_VIDEOS: { id: string; title: string; thumbnail?: string }[] = [
+  { id: "Ga1Q1HOGyJc", title: "TAC" },
+  { id: "IMElCCLNKkQ", title: "Spider-Man 3" },
+  { id: "4ula6i2yvhk", title: "Paradise" },
+  { id: "iATcYC_R88A", title: "Spider-Man Cut" },
+  { id: "mtzx9IfvQtA", title: "Spider-Man 2" },
+  { id: "QrxlteYACwM", title: "Spider-Man" },
+  { id: "0OAh46FM4k0", title: "HIT 2" },
+  { id: "cUWnnhF0kds", title: "HIT Cut by ADI" },
+  { id: "HkDTSpWUJ9Q", title: "Hit Cut Sriram Final" },
 ];
 
 function getLocalPremiereProVideos(): PremiereWallItem[] {
@@ -50,7 +43,7 @@ function getLocalPremiereProVideos(): PremiereWallItem[] {
 function getYouTubeFallbackVideos(): PremiereWallItem[] {
   return YOUTUBE_VIDEOS.map((item) => ({
     youtubeId: item.id,
-    image: `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`,
+    image: item.thumbnail || `https://img.youtube.com/vi/${item.id}/maxresdefault.jpg`,
     href: `https://www.youtube.com/watch?v=${item.id}`,
     title: item.title,
   }));

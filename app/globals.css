@@ -121,6 +121,24 @@ body {
   animation-play-state: paused;
 }
 
+@keyframes spin-360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-360 {
+  animation: spin-360 8s linear infinite;
+  transform-origin: center center;
+}
+
+.group:hover .animate-spin-360 {
+  animation-duration: 3s;
+}
+
 .glow-pulse {
   animation: glow-pulse 5s ease-in-out infinite;
 }

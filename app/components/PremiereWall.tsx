@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 export interface PremiereWallItem {
   image?: string;
@@ -22,12 +22,29 @@ function VideoTile({
   item: PremiereWallItem;
   onOpen: (item: PremiereWallItem) => void;
 }) {
-  const defaultThumb = item.youtubeId
-    ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
-    : item.image || item.poster || "";
+  const defaultThumb =
+    item.image ||
+    (item.youtubeId
+      ? `https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg`
+      : item.poster || "");
 
   const [imgSrc, setImgSrc] = useState(defaultThumb);
+  const [hasError, setHasError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleError = () => {
+    if (!item.youtubeId) {
+      setHasError(true);
+      return;
+    }
+    if (imgSrc.includes("maxresdefault")) {
+      setImgSrc(`https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`);
+    } else if (imgSrc.includes("hqdefault")) {
+      setImgSrc(`https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`);
+    } else {
+      setHasError(true);
+    }
+  };
 
   return (
     <button
@@ -35,8 +52,8 @@ function VideoTile({
       onClick={() => onOpen(item)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative w-full aspect-video shrink-0 cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-xl transition-all duration-300 hover:z-30 hover:scale-[1.05] hover:border-gold hover:shadow-[0_0_30px_rgba(255,184,0,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-      aria-label={item.title || "Play video"}
+      className="group relative w-full aspect-[9/16] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 shadow-2xl transition-all duration-300 hover:z-30 hover:scale-[1.04] hover:border-gold hover:shadow-[0_0_35px_rgba(255,184,0,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+      aria-label={item.title || "Play reel"}
     >
       {item.video ? (
         <video
@@ -48,19 +65,30 @@ function VideoTile({
           playsInline
           className="h-full w-full object-cover"
         />
-      ) : (
+      ) : !hasError && imgSrc ? (
         <img
           src={imgSrc}
           alt={item.title || "Video thumbnail"}
           loading="lazy"
           decoding="async"
-          onError={() => {
-            if (item.youtubeId && !imgSrc.includes("mqdefault")) {
-              setImgSrc(`https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`);
+          onError={handleError}
+          onLoad={(e) => {
+            if (e.currentTarget.naturalWidth === 120) {
+              if (imgSrc.includes("maxresdefault") && item.youtubeId) {
+                setImgSrc(`https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`);
+              } else {
+                setHasError(true);
+              }
             }
           }}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+      ) : (
+        <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-neutral-800 via-neutral-900 to-black p-4 text-center">
+          <span className="text-xs font-semibold tracking-wider text-gold/80 uppercase">
+            TAC Showcase
+          </span>
+        </div>
       )}
 
       {/* Dark gradient overlay */}
@@ -78,15 +106,6 @@ function VideoTile({
           </svg>
         </div>
       </div>
-
-      {/* Title */}
-      {item.title && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 p-2.5">
-          <p className="truncate text-[11px] font-semibold tracking-wide text-white drop-shadow-md group-hover:text-gold sm:text-xs">
-            {item.title}
-          </p>
-        </div>
-      )}
     </button>
   );
 }
@@ -104,39 +123,49 @@ function VerticalColumn({
 }) {
   const colRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const firstSetRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
   const isPausedRef = useRef(false);
   const lastTsRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+  const setHeightRef = useRef(0);
 
-  // Repeat items 4 times to ensure seamless infinite vertical loop
-  const duplicatedItems = [...items, ...items, ...items, ...items];
+  const copies = [0, 1, 2, 3, 4];
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
+    const measure = () => {
+      if (firstSetRef.current) {
+        setHeightRef.current = firstSetRef.current.offsetHeight || 0;
+      }
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (firstSetRef.current) ro.observe(firstSetRef.current);
+    return () => ro.disconnect();
+  }, [items]);
 
+  useEffect(() => {
     const animate = (ts: number) => {
       if (lastTsRef.current === null) lastTsRef.current = ts;
       const dt = Math.min(0.05, (ts - lastTsRef.current) / 1000);
       lastTsRef.current = ts;
 
-      if (!isPausedRef.current && track) {
-        const singleSetHeight = track.scrollHeight / 4;
-        if (singleSetHeight > 0) {
-          const move = speed * dt;
-          if (direction === "up") {
-            offsetRef.current += move;
-            if (offsetRef.current >= singleSetHeight) {
-              offsetRef.current -= singleSetHeight;
-            }
-          } else {
-            offsetRef.current -= move;
-            if (offsetRef.current <= 0) {
-              offsetRef.current += singleSetHeight;
-            }
+      const setHeight = setHeightRef.current;
+      if (!isPausedRef.current && setHeight > 0) {
+        const move = speed * dt;
+        if (direction === "up") {
+          offsetRef.current += move;
+          if (offsetRef.current >= setHeight) {
+            offsetRef.current -= setHeight;
           }
-          track.style.transform = `translate3d(0, ${-offsetRef.current}px, 0)`;
+        } else {
+          offsetRef.current -= move;
+          if (offsetRef.current <= 0) {
+            offsetRef.current += setHeight;
+          }
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translate3d(0, ${-offsetRef.current}px, 0)`;
         }
       }
 
@@ -164,14 +193,22 @@ function VerticalColumn({
     >
       <div
         ref={trackRef}
-        className="flex flex-col w-full gap-4 sm:gap-5 will-change-transform"
+        className="flex flex-col w-full gap-4 sm:gap-6 will-change-transform"
       >
-        {duplicatedItems.map((item, idx) => (
-          <VideoTile
-            key={`${item.youtubeId || item.video || idx}-${idx}`}
-            item={item}
-            onOpen={onOpen}
-          />
+        {copies.map((c) => (
+          <div
+            key={c}
+            ref={c === 0 ? firstSetRef : undefined}
+            className="flex flex-col w-full gap-4 sm:gap-6 shrink-0"
+          >
+            {items.map((item, idx) => (
+              <VideoTile
+                key={`${item.youtubeId || item.video || idx}-${c}-${idx}`}
+                item={item}
+                onOpen={onOpen}
+              />
+            ))}
+          </div>
         ))}
       </div>
     </div>
@@ -197,26 +234,21 @@ export default function PremiereWall({ items }: PremiereWallProps) {
     };
   }, [openItem, closeLightbox]);
 
-  // Distribute items across 5 vertical columns
-  const columnCount = 5;
-  const columns: PremiereWallItem[][] = Array.from({ length: columnCount }, () => []);
-  items.forEach((item, index) => {
-    columns[index % columnCount].push(item);
-  });
-
-  // Ensure every column has enough items
-  columns.forEach((col, i) => {
-    if (col.length === 0) {
-      columns[i] = [...items];
-    }
-  });
+  // Distribute items across 4 vertical columns
+  const columnCount = 4;
+  const columns: PremiereWallItem[][] = useMemo(() => {
+    const cols: PremiereWallItem[][] = Array.from({ length: columnCount }, () => []);
+    items.forEach((item, index) => {
+      cols[index % columnCount].push(item);
+    });
+    return cols.map((col) => (col.length > 0 ? col : items));
+  }, [items]);
 
   const columnConfigs: { direction: "up" | "down"; speed: number }[] = [
-    { direction: "up", speed: 38 },
-    { direction: "down", speed: 30 },
-    { direction: "up", speed: 42 },
-    { direction: "down", speed: 32 },
     { direction: "up", speed: 36 },
+    { direction: "down", speed: 30 },
+    { direction: "up", speed: 38 },
+    { direction: "down", speed: 32 },
   ];
 
   return (
@@ -225,8 +257,8 @@ export default function PremiereWall({ items }: PremiereWallProps) {
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-bg via-bg/60 to-transparent sm:h-24" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-bg via-bg/60 to-transparent sm:h-24" />
 
-      {/* 5 Vertical Up/Down Columns */}
-      <div className="flex h-full w-full items-stretch gap-4 sm:gap-5 px-1">
+      {/* 4 Vertical Up/Down Columns */}
+      <div className="flex h-full w-full max-w-6xl mx-auto items-stretch gap-3 sm:gap-5 lg:gap-6 px-1">
         {columns.map((colItems, idx) => (
           <VerticalColumn
             key={`col-${idx}`}
@@ -245,7 +277,7 @@ export default function PremiereWall({ items }: PremiereWallProps) {
           onClick={closeLightbox}
         >
           <div
-            className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-2xl border border-white/20 bg-black shadow-[0_0_60px_rgba(0,0,0,0.9)]"
+            className="relative aspect-[9/16] h-full max-h-[85vh] w-auto max-w-sm sm:max-w-md overflow-hidden rounded-2xl border border-white/20 bg-black shadow-[0_0_60px_rgba(0,0,0,0.9)]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
