@@ -47,6 +47,7 @@ export default function PhotoshopPage() {
               fit={1.12}
               minRadius={900}
               padFactor={0.03}
+              maxVerticalRotationDeg={12}
               segments={22}
               dragDampening={1}
               grayscale={false}
