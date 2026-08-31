@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useId } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
 export interface IllustratorProject {
   id: string;
@@ -11,6 +11,173 @@ export interface IllustratorProject {
 
 interface IllustratorGalleryProps {
   projects: IllustratorProject[];
+}
+
+function ProjectCard({
+  project,
+  onOpen,
+}: {
+  project: IllustratorProject;
+  onOpen: (p: IllustratorProject) => void;
+}) {
+  const hasMultiple = project.images.length > 1;
+
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen(project)}
+      className="group relative flex w-full flex-col text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-2xl shrink-0"
+      aria-label={`Open ${project.title} (${project.images.length} images)`}
+    >
+      {/* Stacked background effect for collections with multiple images */}
+      {hasMultiple && (
+        <>
+          <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-gradient-to-r from-gold/20 via-gold/10 to-transparent opacity-0 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
+          <div className="pointer-events-none absolute inset-x-2 -top-2 h-full rounded-2xl border border-white/10 bg-neutral-900/60 transition-transform duration-300 group-hover:-translate-y-1" />
+        </>
+      )}
+
+      {/* Main Card Block */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 shadow-xl transition-all duration-300 group-hover:scale-[1.03] group-hover:border-gold group-hover:shadow-[0_0_30px_rgba(255,184,0,0.4)]">
+        <img
+          src={project.coverImage}
+          alt={project.title}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+
+        {/* Dark Gradient Overlay */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-75 transition-opacity duration-300 group-hover:opacity-40" />
+
+        {/* Count Badge */}
+        <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/75 px-2.5 py-1 text-[11px] font-bold text-gold backdrop-blur-md shadow-md">
+          <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
+            <path d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
+          </svg>
+          <span>
+            {project.images.length} {project.images.length === 1 ? "Image" : "Photos"}
+          </span>
+        </div>
+
+        {/* Card Footer Details */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
+          <p className="text-xs sm:text-sm font-bold text-white drop-shadow-md line-clamp-2 group-hover:text-gold transition-colors">
+            {project.title}
+          </p>
+          <p className="mt-1 flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-gold/80">
+            <span>View variations</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1 font-bold">→</span>
+          </p>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function VerticalColumn({
+  projects,
+  direction,
+  speed = 34,
+  onOpen,
+}: {
+  projects: IllustratorProject[];
+  direction: "up" | "down";
+  speed?: number;
+  onOpen: (p: IllustratorProject) => void;
+}) {
+  const colRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const firstSetRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
+  const isPausedRef = useRef(false);
+  const lastTsRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const setHeightRef = useRef(0);
+
+  const copies = [0, 1, 2, 3];
+
+  useEffect(() => {
+    const measure = () => {
+      if (firstSetRef.current) {
+        setHeightRef.current = firstSetRef.current.offsetHeight || 0;
+      }
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (firstSetRef.current) ro.observe(firstSetRef.current);
+    return () => ro.disconnect();
+  }, [projects]);
+
+  useEffect(() => {
+    const animate = (ts: number) => {
+      if (lastTsRef.current === null) lastTsRef.current = ts;
+      const dt = Math.min(0.05, (ts - lastTsRef.current) / 1000);
+      lastTsRef.current = ts;
+
+      const setHeight = setHeightRef.current;
+      if (!isPausedRef.current && setHeight > 0) {
+        const move = speed * dt;
+        if (direction === "up") {
+          offsetRef.current += move;
+          if (offsetRef.current >= setHeight) {
+            offsetRef.current -= setHeight;
+          }
+        } else {
+          offsetRef.current -= move;
+          if (offsetRef.current <= 0) {
+            offsetRef.current += setHeight;
+          }
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translate3d(0, ${-offsetRef.current}px, 0)`;
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      lastTsRef.current = null;
+    };
+  }, [direction, speed]);
+
+  return (
+    <div
+      ref={colRef}
+      onMouseEnter={() => {
+        isPausedRef.current = true;
+      }}
+      onMouseLeave={() => {
+        isPausedRef.current = false;
+      }}
+      className="relative flex-1 min-w-0 h-full overflow-hidden"
+    >
+      <div
+        ref={trackRef}
+        className="flex flex-col w-full gap-5 sm:gap-6 will-change-transform"
+      >
+        {copies.map((c) => (
+          <div
+            key={c}
+            ref={c === 0 ? firstSetRef : undefined}
+            className="flex flex-col w-full gap-5 sm:gap-6 shrink-0"
+          >
+            {projects.map((project, idx) => (
+              <ProjectCard
+                key={`${project.id}-${c}-${idx}`}
+                project={project}
+                onOpen={onOpen}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function IllustratorGallery({ projects }: IllustratorGalleryProps) {
@@ -56,91 +223,40 @@ export default function IllustratorGallery({ projects }: IllustratorGalleryProps
     };
   }, [activeProject, closeProject, nextImage, prevImage]);
 
-  const totalPhotos = projects.reduce((acc, p) => acc + p.images.length, 0);
+  // Distribute projects across 4 vertical continuous looping columns
+  const columnCount = 4;
+  const columns: IllustratorProject[][] = useMemo(() => {
+    const cols: IllustratorProject[][] = Array.from({ length: columnCount }, () => []);
+    projects.forEach((proj, index) => {
+      cols[index % columnCount].push(proj);
+    });
+    return cols.map((col) => (col.length > 0 ? col : projects));
+  }, [projects]);
+
+  const columnConfigs: { direction: "up" | "down"; speed: number }[] = [
+    { direction: "up", speed: 32 },
+    { direction: "down", speed: 28 },
+    { direction: "up", speed: 35 },
+    { direction: "down", speed: 30 },
+  ];
 
   return (
-    <div className="w-full">
-      {/* Header Info */}
-      <div className="mb-10 text-center sm:mb-14">
-        <p className="animate-eyebrow text-[13px] font-semibold tracking-[0.3em] text-gold uppercase">
-          VECTOR ART &amp; ILLUSTRATION
-        </p>
-        <h1 className="animate-heading mx-auto mt-3 max-w-[700px] text-3xl font-black uppercase tracking-tight text-white sm:text-4xl lg:text-5xl">
-          Crafted in Illustrator.
-        </h1>
-        <p className="animate-description mx-auto mt-4 max-w-lg text-sm text-gray-light sm:text-base">
-          Explore curated vector collections. Click any artwork block to view all iterations and variations.
-        </p>
-        <div className="mt-5 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs font-semibold text-gold/90 backdrop-blur-sm">
-          <span>{projects.length} Collections</span>
-          <span className="text-white/30">&bull;</span>
-          <span>{totalPhotos} Total Assets</span>
-        </div>
-      </div>
+    <div className="relative h-full w-full overflow-hidden">
+      {/* Top & Bottom Soft Fade Masks */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-16 bg-gradient-to-b from-bg via-bg/60 to-transparent sm:h-24" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-bg via-bg/60 to-transparent sm:h-24" />
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-7">
-        {projects.map((project, idx) => {
-          const hasMultiple = project.images.length > 1;
-
-          return (
-            <button
-              key={project.id}
-              type="button"
-              onClick={() => openProject(project)}
-              className="group relative flex flex-col text-left cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-2xl"
-              aria-label={`Open ${project.title} (${project.images.length} images)`}
-            >
-              {/* Stacked background effect for collections with multiple images */}
-              {hasMultiple && (
-                <>
-                  <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-gradient-to-r from-gold/20 via-gold/10 to-transparent opacity-0 blur-sm transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="pointer-events-none absolute inset-x-2 -top-2 h-full rounded-2xl border border-white/10 bg-neutral-900/60 transition-transform duration-300 group-hover:-translate-y-1" />
-                </>
-              )}
-
-              {/* Main Card Block */}
-              <div className="relative aspect-[4/3] sm:aspect-[1/1] w-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 shadow-xl transition-all duration-300 group-hover:scale-[1.02] group-hover:border-gold group-hover:shadow-[0_0_30px_rgba(255,184,0,0.3)]">
-                <img
-                  src={project.coverImage}
-                  alt={project.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-
-                {/* Dark Gradient Overlay */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10 opacity-75 transition-opacity duration-300 group-hover:opacity-50" />
-
-                {/* Count Badge */}
-                <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/75 px-3 py-1 text-[11px] font-bold text-gold backdrop-blur-md shadow-md">
-                  <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
-                    <path d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                  </svg>
-                  <span>
-                    {project.images.length} {project.images.length === 1 ? "Image" : "Photos"}
-                  </span>
-                </div>
-
-                {/* Index Pill */}
-                <div className="absolute left-3 top-3 z-10 rounded-md border border-white/10 bg-black/60 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-white/80 backdrop-blur-md">
-                  #{String(idx + 1).padStart(2, "0")}
-                </div>
-
-                {/* Card Footer Details */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4">
-                  <p className="text-sm font-bold text-white drop-shadow-md group-hover:text-gold transition-colors">
-                    {project.title}
-                  </p>
-                  <p className="mt-1 flex items-center gap-1 text-[11px] font-medium text-gold/80">
-                    <span>View all {project.images.length} works</span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-1 font-bold">→</span>
-                  </p>
-                </div>
-              </div>
-            </button>
-          );
-        })}
+      {/* 4 Vertical Continuous Looping Columns */}
+      <div className="flex h-full w-full max-w-7xl mx-auto items-stretch gap-4 sm:gap-6 px-1">
+        {columns.map((colProjects, idx) => (
+          <VerticalColumn
+            key={`illustrator-col-${idx}`}
+            projects={colProjects}
+            direction={columnConfigs[idx].direction}
+            speed={columnConfigs[idx].speed}
+            onOpen={openProject}
+          />
+        ))}
       </div>
 
       {/* Interactive Project Collection Lightbox Modal */}

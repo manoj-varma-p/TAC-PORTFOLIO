@@ -323,27 +323,27 @@ export default function IllustratorPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg text-foreground">
       <Navbar />
-      <main className="relative flex flex-1 flex-col py-10 sm:py-14">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-center px-6 lg:px-[60px]">
-          {projects.length > 0 ? (
+      <main className="relative flex flex-1 flex-col justify-center overflow-hidden py-4 sm:py-6">
+        {projects.length > 0 ? (
+          <div className="relative mx-auto flex h-[calc(100vh-6.5rem)] min-h-[500px] max-h-[840px] w-full flex-col px-3 sm:px-6">
             <IllustratorGallery projects={projects} />
-          ) : (
-            <div className="flex flex-1 items-center justify-center py-20">
-              <div className="max-w-md rounded-2xl border border-border bg-white/[0.03] px-8 py-12 text-center">
-                <p className="text-sm font-semibold tracking-[0.2em] text-gold">
-                  NO ILLUSTRATIONS YET
-                </p>
-                <p className="mt-3 text-gray-light text-sm">
-                  Add image files to{" "}
-                  <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[13px] text-white">
-                    public/gallery/illustrator
-                  </code>{" "}
-                  and refresh this page.
-                </p>
-              </div>
+          </div>
+        ) : (
+          <div className="flex flex-1 items-center justify-center px-6 pb-24">
+            <div className="max-w-md rounded-2xl border border-border bg-white/[0.03] px-8 py-12 text-center">
+              <p className="text-sm font-semibold tracking-[0.2em] text-gold">
+                NO ILLUSTRATIONS YET
+              </p>
+              <p className="mt-3 text-gray-light text-sm">
+                Add image files to{" "}
+                <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[13px] text-white">
+                  public/gallery/illustrator
+                </code>{" "}
+                and refresh this page.
+              </p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </main>
     </div>
   );
