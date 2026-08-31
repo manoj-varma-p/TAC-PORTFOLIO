@@ -37,21 +37,20 @@ function ProjectCard({
         </>
       )}
 
-      {/* Main Card Block */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 shadow-xl transition-all duration-300 group-hover:scale-[1.03] group-hover:border-gold group-hover:shadow-[0_0_30px_rgba(255,184,0,0.4)]">
-        <img
-          src={project.coverImage}
-          alt={project.title}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-
-        {/* Dark Gradient Overlay */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-75 transition-opacity duration-300 group-hover:opacity-40" />
+      {/* Main Card Block - object-contain ensures NO cuts on any artwork */}
+      <div className="relative flex aspect-[4/5] w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/90 p-2 sm:p-2.5 shadow-xl transition-all duration-300 group-hover:scale-[1.03] group-hover:border-gold group-hover:shadow-[0_0_30px_rgba(255,184,0,0.4)]">
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl bg-neutral-900/40">
+          <img
+            src={project.coverImage}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
 
         {/* Count Badge */}
-        <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/75 px-2.5 py-1 text-[11px] font-bold text-gold backdrop-blur-md shadow-md">
+        <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-gold backdrop-blur-md shadow-md">
           <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
             <path d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
           </svg>
@@ -61,12 +60,12 @@ function ProjectCard({
         </div>
 
         {/* Card Footer Details */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
-          <p className="text-xs sm:text-sm font-bold text-white drop-shadow-md line-clamp-2 group-hover:text-gold transition-colors">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-3 sm:p-3.5 pt-6 rounded-b-2xl">
+          <p className="text-xs sm:text-sm font-bold text-white drop-shadow-md line-clamp-1 group-hover:text-gold transition-colors">
             {project.title}
           </p>
-          <p className="mt-1 flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-gold/80">
-            <span>View variations</span>
+          <p className="mt-0.5 flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-gold/80">
+            <span>View all {project.images.length} works</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1 font-bold">→</span>
           </p>
         </div>
@@ -296,7 +295,7 @@ export default function IllustratorGallery({ projects }: IllustratorGalleryProps
             </div>
 
             {/* Main Active Image Stage with Left / Right Buttons */}
-            <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-black/90 p-3 sm:p-6">
+            <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-black/95 p-3 sm:p-6">
               {/* Previous Arrow */}
               {activeProject.images.length > 1 && (
                 <button
@@ -309,13 +308,13 @@ export default function IllustratorGallery({ projects }: IllustratorGalleryProps
                 </button>
               )}
 
-              {/* Active Image Display */}
+              {/* Active Image Display - object-contain ensures NO cuts */}
               <div className="relative flex h-full w-full items-center justify-center">
                 <img
                   key={activeProject.images[activeImageIndex]}
                   src={activeProject.images[activeImageIndex]}
                   alt={`${activeProject.title} - View ${activeImageIndex + 1}`}
-                  className="max-h-[62vh] max-w-full rounded-xl object-contain shadow-2xl transition-opacity duration-300"
+                  className="max-h-[64vh] max-w-full rounded-xl object-contain shadow-2xl transition-opacity duration-300"
                 />
               </div>
 
@@ -346,7 +345,7 @@ export default function IllustratorGallery({ projects }: IllustratorGalleryProps
                         key={`${imgUrl}-${i}`}
                         type="button"
                         onClick={() => setActiveImageIndex(i)}
-                        className={`group relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border transition-all cursor-pointer ${
+                        className={`group relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl border p-1 bg-black/60 transition-all cursor-pointer ${
                           isSelected
                             ? "border-gold ring-2 ring-gold/60 scale-105 shadow-[0_0_15px_rgba(255,184,0,0.5)]"
                             : "border-white/10 opacity-60 hover:opacity-100 hover:border-white/40"
@@ -356,7 +355,7 @@ export default function IllustratorGallery({ projects }: IllustratorGalleryProps
                         <img
                           src={imgUrl}
                           alt={`Variation ${i + 1}`}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-contain"
                         />
                         <span className="absolute bottom-1 right-1 rounded bg-black/75 px-1 text-[9px] font-bold text-white">
                           {i + 1}
