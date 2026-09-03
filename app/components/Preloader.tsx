@@ -12,9 +12,9 @@ export default function Preloader() {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Progress counter animating to 100% over 3 seconds
+    // Progress counter animating to 100% over 1 second
     const startTime = performance.now();
-    const duration = 3000; // 3 seconds
+    const duration = 1000; // 1 second
 
     let raf: number;
     const updateProgress = (now: number) => {
@@ -28,7 +28,7 @@ export default function Preloader() {
         setTimeout(() => {
           setLoading(false);
           document.body.style.overflow = prevOverflow;
-        }, 150);
+        }, 50);
       }
     };
 
@@ -46,8 +46,8 @@ export default function Preloader() {
         <motion.div
           key="tac-preloader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.03 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#050508] text-white select-none"
         >
           {/* Ambient Background Glow */}
@@ -82,11 +82,11 @@ export default function Preloader() {
                   strokeDasharray="276"
                   initial={{ strokeDashoffset: 276 }}
                   animate={{
-                    strokeDashoffset: [276, 50, 20],
+                    strokeDashoffset: [276, 50, 0],
                     rotate: [0, 360, 720],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 1,
                     ease: "easeInOut",
                   }}
                   style={{
@@ -105,7 +105,7 @@ export default function Preloader() {
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: [0.95, 1.05, 0.98], opacity: 1 }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
                   className="relative z-10 flex items-center justify-center"
                 >
                   <img
@@ -120,9 +120,9 @@ export default function Preloader() {
             {/* Typography */}
             <div className="mt-6 flex flex-col items-center text-center">
               <motion.h1
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{ duration: 0.3, delay: 0.05 }}
                 className="text-lg sm:text-xl font-black uppercase tracking-[0.32em] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold to-amber-300 drop-shadow-[0_0_20px_rgba(255,184,0,0.35)]"
               >
                 THE ART CODE
@@ -131,7 +131,7 @@ export default function Preloader() {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
                 className="mt-2 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400"
               >
                 PORTFOLIO

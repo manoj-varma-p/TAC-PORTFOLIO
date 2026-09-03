@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import {
   PhotoshopIcon,
@@ -26,6 +29,8 @@ const navIcons: Record<string, ReactNode> = {
 };
 
 export default function Navbar() {
+  const pathname = usePathname();
+
   return (
     <header className="animate-navbar sticky top-0 z-20 w-full border-b border-border/60 bg-bg/85 backdrop-blur-sm lg:h-20">
       <div className="relative flex h-full w-full items-center justify-between gap-4 px-4 py-3 sm:px-6 md:px-8 lg:px-10 lg:py-0">
@@ -38,20 +43,51 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden flex-1 items-center justify-center gap-3 md:flex lg:gap-5 xl:gap-7">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="group flex flex-col items-center gap-1 text-center"
-            >
-              <span className="opacity-95 transition-all duration-200 group-hover:scale-110 group-hover:opacity-100">
-                {navIcons[item.label]}
-              </span>
-              <span className="hidden whitespace-nowrap text-[10.5px] font-semibold tracking-[0.09em] text-gray-light transition group-hover:text-gold lg:inline">
-                {item.label.toUpperCase()}
-              </span>
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`group relative flex flex-col items-center gap-1 text-center transition-all duration-300 py-1 ${
+                  isActive ? "text-gold" : "text-gray-light"
+                }`}
+              >
+                <div className="relative flex items-center justify-center">
+                  {isActive && (
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -inset-2 rounded-full bg-gold/30 blur-md animate-pulse"
+                    />
+                  )}
+                  <span
+                    className={`transition-all duration-300 ${
+                      isActive
+                        ? "scale-115 opacity-100 drop-shadow-[0_0_12px_rgba(255,184,0,0.9)] drop-shadow-[0_0_24px_rgba(255,184,0,0.55)]"
+                        : "opacity-75 group-hover:scale-110 group-hover:opacity-100 group-hover:drop-shadow-[0_0_10px_rgba(255,184,0,0.45)]"
+                    }`}
+                  >
+                    {navIcons[item.label]}
+                  </span>
+                </div>
+                <span
+                  className={`hidden whitespace-nowrap text-[10.5px] tracking-[0.09em] transition-all duration-200 lg:inline ${
+                    isActive
+                      ? "font-bold text-gold drop-shadow-[0_0_8px_rgba(255,184,0,0.5)]"
+                      : "font-semibold text-gray-light group-hover:text-gold"
+                  }`}
+                >
+                  {item.label.toUpperCase()}
+                </span>
+                {isActive && (
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-1 h-0.5 w-6 rounded-full bg-gold shadow-[0_0_10px_rgba(255,184,0,1)]"
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         <a

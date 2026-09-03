@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight } from "./icons";
 import { navItems } from "./navItems";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="md:hidden">
@@ -31,16 +33,23 @@ export default function MobileMenu() {
       {open && (
         <div className="absolute inset-x-0 top-full border-b border-border bg-bg px-6 py-6">
           <nav className="grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="text-[11px] font-medium tracking-[0.08em] text-gray-light transition hover:text-gold"
-              >
-                {item.label.toUpperCase()}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`text-[11px] tracking-[0.08em] transition ${
+                    isActive
+                      ? "font-bold text-gold drop-shadow-[0_0_8px_rgba(255,184,0,0.6)]"
+                      : "font-medium text-gray-light hover:text-gold"
+                  }`}
+                >
+                  {item.label.toUpperCase()}
+                </Link>
+              );
+            })}
           </nav>
           <a
             href="https://wa.me/919848000274"
