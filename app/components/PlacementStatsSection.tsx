@@ -154,8 +154,7 @@ export default function PlacementStatsSection() {
 
         {/* Highlighted Verification Content & Contact CTA */}
         <div className="mt-8 flex flex-col items-center justify-center gap-5 text-center">
-          <div className="inline-flex flex-wrap items-center justify-center gap-2.5 rounded-full border border-gold/40 bg-gradient-to-r from-gold/15 via-gold/25 to-gold/15 px-6 py-3 shadow-[0_0_30px_rgba(255,184,0,0.25)] backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-gold animate-pulse shrink-0" />
+          <div className="inline-flex flex-wrap items-center justify-center gap-2.5 rounded-2xl sm:rounded-full border border-gold/40 bg-gradient-to-r from-gold/15 via-gold/25 to-gold/15 px-6 py-3 shadow-[0_0_30px_rgba(255,184,0,0.25)] backdrop-blur-md">
             <p className="text-xs sm:text-sm font-bold tracking-wide text-white">
               <span className="text-gold-bright font-extrabold">Verified Student Hiring Records</span>
               <span className="mx-2 text-gold/60">&bull;</span>
