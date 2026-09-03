@@ -58,9 +58,15 @@ export default function Preloader() {
 
           <div className="relative flex flex-col items-center scale-95 sm:scale-100">
             {/* Center Circular Spinner & Logo Hub */}
-            <div className="relative flex h-28 w-28 items-center justify-center">
+            <div className="relative flex h-28 w-28 items-center justify-center rounded-full">
+              {/* Outer Ambient Circular Radial Glow */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-3 rounded-full bg-gold/20 blur-lg"
+              />
+
               {/* Rotating Golden Arc Ring */}
-              <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 100 100">
+              <svg className="absolute inset-0 h-full w-full -rotate-90 overflow-visible rounded-full" viewBox="0 0 100 100">
                 {/* Background Track */}
                 <circle
                   cx="50"
@@ -90,28 +96,27 @@ export default function Preloader() {
                     ease: "easeInOut",
                   }}
                   style={{
-                    filter: "drop-shadow(0 0 10px rgba(255, 184, 0, 0.85))",
                     transformOrigin: "50% 50%",
                   }}
                 />
               </svg>
 
               {/* Inner Glow Circle Container */}
-              <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-gold/30 bg-gradient-to-b from-[#161622] via-[#09090f] to-[#040407] shadow-[inset_0_0_15px_rgba(255,184,0,0.2),0_0_25px_rgba(0,0,0,0.9)]">
+              <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-gold/40 bg-gradient-to-b from-[#181624] via-[#0c0c14] to-[#050508] shadow-[0_0_20px_rgba(255,184,0,0.25)]">
                 {/* Subtle Inner Pulse Halo */}
-                <div className="absolute inset-1.5 rounded-full bg-gold/10 blur-sm animate-pulse" />
+                <div className="absolute inset-1 rounded-full bg-gold/10 blur-xs animate-pulse" />
 
                 {/* TAC Golden Chevron */}
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: [0.95, 1.05, 0.98], opacity: 1 }}
                   transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-                  className="relative z-10 flex items-center justify-center"
+                  className="relative z-10 flex items-center justify-center rounded-full"
                 >
                   <img
                     src="/logo.png"
                     alt="TAC Logo"
-                    className="h-8 w-8 object-contain drop-shadow-[0_0_12px_rgba(255,184,0,0.85)]"
+                    className="h-8 w-8 object-contain"
                   />
                 </motion.div>
               </div>

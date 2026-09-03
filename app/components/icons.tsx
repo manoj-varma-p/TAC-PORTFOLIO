@@ -132,42 +132,46 @@ export function AfterEffectsIcon({ className = "h-8 w-8" }: IconProps) {
 export function DaVinciIcon({ className = "h-8 w-8" }: IconProps) {
   return (
     <div className={`relative flex items-center justify-center shrink-0 ${className}`}>
-      <svg viewBox="0 0 36 36" className="h-full w-full drop-shadow-[0_4px_12px_rgba(255,184,0,0.2)] transition-all duration-300 group-hover:drop-shadow-[0_6px_18px_rgba(255,184,0,0.4)]">
+      <svg viewBox="0 0 36 36" className="h-full w-full drop-shadow-[0_4px_12px_rgba(255,184,0,0.25)] transition-all duration-300 group-hover:drop-shadow-[0_6px_18px_rgba(255,184,0,0.45)]">
         <defs>
-          <linearGradient id="dv-rim" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3a3a46" />
-            <stop offset="50%" stopColor="#1a1a22" />
-            <stop offset="100%" stopColor="#0d0d12" />
+          <linearGradient id="dv-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#282936" />
+            <stop offset="50%" stopColor="#151620" />
+            <stop offset="100%" stopColor="#0b0c12" />
           </linearGradient>
-          <radialGradient id="dv-blue" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stopColor="#a8e0ff" />
-            <stop offset="40%" stopColor="#3ba1ff" />
-            <stop offset="100%" stopColor="#005bb5" />
-          </radialGradient>
-          <radialGradient id="dv-red" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stopColor="#ffa3a3" />
-            <stop offset="40%" stopColor="#ff4d4d" />
-            <stop offset="100%" stopColor="#b30000" />
-          </radialGradient>
-          <radialGradient id="dv-yellow" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stopColor="#fff3b0" />
-            <stop offset="40%" stopColor="#ffc000" />
-            <stop offset="100%" stopColor="#b37d00" />
-          </radialGradient>
+          <linearGradient id="dv-border" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
+          </linearGradient>
           <linearGradient id="dv-shine" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
+          <linearGradient id="dv-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#38bdf8" />
+            <stop offset="100%" stopColor="#0284c7" />
+          </linearGradient>
+          <linearGradient id="dv-red" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fb7185" />
+            <stop offset="100%" stopColor="#e11d48" />
+          </linearGradient>
+          <linearGradient id="dv-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fde047" />
+            <stop offset="100%" stopColor="#d97706" />
+          </linearGradient>
         </defs>
-        {/* Outer Dial */}
-        <circle cx="18" cy="18" r="16" fill="url(#dv-rim)" stroke="#ffffff" strokeOpacity="0.18" strokeWidth="1.2" />
-        <circle cx="18" cy="18" r="13.5" fill="#08080c" stroke="#ffffff" strokeOpacity="0.08" strokeWidth="0.8" />
-        {/* Top Gloss Arc */}
-        <path d="M4 18 A14 14 0 0 1 32 18 Z" fill="url(#dv-shine)" opacity="0.25" />
-        {/* 3 Color Gems */}
-        <circle cx="18" cy="10.8" r="3.6" fill="url(#dv-blue)" filter="drop-shadow(0 0 4px rgba(59,161,255,0.7))" />
-        <circle cx="23.8" cy="21.8" r="3.6" fill="url(#dv-red)" filter="drop-shadow(0 0 4px rgba(255,77,77,0.7))" />
-        <circle cx="12.2" cy="21.8" r="3.6" fill="url(#dv-yellow)" filter="drop-shadow(0 0 4px rgba(255,192,0,0.7))" />
+        {/* Base Container matching Ps, Pr, Ai, Ae */}
+        <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#dv-bg)" stroke="url(#dv-border)" strokeWidth="1.5" />
+        <path d="M2.5 10 C2.5 5.8 5.8 2.5 10 2.5 L26 2.5 C30.2 2.5 33.5 5.8 33.5 10 L33.5 17 C26 19 10 16 2.5 18 Z" fill="url(#dv-shine)" />
+        {/* DaVinci 3 Signature Color Petals */}
+        <path d="M18 7.5 C21.5 7.5 23.5 10.5 22.5 14 C21.8 16.5 19.5 18 18 18 C16.5 18 14.2 16.5 13.5 14 C12.5 10.5 14.5 7.5 18 7.5 Z" fill="url(#dv-blue)" />
+        <path d="M26 22 C27.5 25 25.5 28 22 28 C18.8 28 17.5 25.8 18 23.8 C18.5 22 20.8 20 22.8 19.5 C24.5 19 25.5 20.5 26 22 Z" fill="url(#dv-red)" />
+        <path d="M10 22 C10.5 20.5 11.5 19 13.2 19.5 C15.2 20 17.5 22 18 23.8 C18.5 25.8 17.2 28 14 28 C10.5 28 8.5 25 10 22 Z" fill="url(#dv-yellow)" />
+        {/* Central Core & Highlights */}
+        <circle cx="18" cy="19.5" r="2.4" fill="#ffffff" opacity="0.95" />
+        <circle cx="18" cy="12" r="1.2" fill="#ffffff" opacity="0.8" />
+        <circle cx="22.5" cy="24" r="1.2" fill="#ffffff" opacity="0.8" />
+        <circle cx="13.5" cy="24" r="1.2" fill="#ffffff" opacity="0.8" />
       </svg>
     </div>
   );
