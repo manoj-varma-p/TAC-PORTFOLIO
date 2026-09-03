@@ -3,43 +3,71 @@
 import { motion } from "motion/react";
 
 interface StatBlock {
+  id: string;
   value: string;
   label: string;
   note?: string;
   isHighlighted?: boolean;
+  mobileOrder: string;
+  desktopOrder: string;
+  borderClasses: string;
 }
 
 const STATS_DATA: StatBlock[] = [
   {
+    id: "batches",
     value: "9",
     label: "BATCHES COMPLETED",
     isHighlighted: false,
+    mobileOrder: "order-1",
+    desktopOrder: "sm:order-1",
+    borderClasses: "border-r border-b border-white/10 sm:border-b-0 sm:border-r sm:border-white/10",
   },
   {
-    value: "₹7.2 LPA",
-    label: "HIGHEST PACKAGE",
-    isHighlighted: true,
-  },
-  {
+    id: "placement",
     value: "100%",
     label: "PLACEMENT ASSISTANCE",
     note: "*For students with a verified T-Shape portfolio & 90%+ attendance",
     isHighlighted: false,
+    mobileOrder: "order-2",
+    desktopOrder: "sm:order-3",
+    borderClasses: "border-b border-white/10 sm:border-b-0 sm:border-r-0",
   },
   {
-    value: "8",
-    label: "SKILLS PER STUDENT",
-    isHighlighted: false,
+    id: "pkg",
+    value: "₹7.2 LPA",
+    label: "HIGHEST PACKAGE",
+    isHighlighted: true,
+    mobileOrder: "order-3",
+    desktopOrder: "sm:order-2",
+    borderClasses: "border-r border-b border-white/10 sm:border-b-0 sm:border-r sm:border-white/10",
   },
   {
+    id: "freelance",
     value: "₹1L",
     label: "MONTH-12 FREELANCE TARGET",
     isHighlighted: true,
+    mobileOrder: "order-4",
+    desktopOrder: "sm:order-5",
+    borderClasses: "border-b border-white/10 sm:border-t sm:border-r sm:border-white/10",
   },
   {
+    id: "skills",
+    value: "8",
+    label: "SKILLS PER STUDENT",
+    isHighlighted: false,
+    mobileOrder: "order-5",
+    desktopOrder: "sm:order-4",
+    borderClasses: "border-r border-white/10 sm:border-t sm:border-r sm:border-white/10",
+  },
+  {
+    id: "projects",
     value: "10",
     label: "INDUSTRY PORTFOLIO PROJECTS",
     isHighlighted: false,
+    mobileOrder: "order-6",
+    desktopOrder: "sm:order-6",
+    borderClasses: "border-none sm:border-t sm:border-r-0 sm:border-white/10",
   },
 ];
 
@@ -82,50 +110,45 @@ export default function PlacementStatsSection() {
           transition={{ duration: 0.5 }}
           className="mt-10 overflow-hidden rounded-3xl border border-white/15 bg-white/[0.02] shadow-[0_25px_70px_rgba(0,0,0,0.85)] backdrop-blur-xl"
         >
-          <div className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-3 sm:divide-y-0 sm:divide-x sm:divide-white/10">
-            {STATS_DATA.map((item, index) => {
-              // Add row divider between first 3 and last 3 on desktop
-              const isSecondRow = index >= 3;
+          <div className="grid grid-cols-2 sm:grid-cols-3">
+            {STATS_DATA.map((item) => (
+              <div
+                key={item.id}
+                className={`group relative flex flex-col items-center justify-center p-6 sm:p-10 lg:p-12 text-center transition-all duration-300 ${item.mobileOrder} ${item.desktopOrder} ${item.borderClasses} ${
+                  item.isHighlighted
+                    ? "bg-gradient-to-b from-gold/25 via-gold/15 to-gold/25 text-white shadow-[inset_0_0_40px_rgba(255,184,0,0.15)]"
+                    : "bg-[#0b0b10]/60 hover:bg-white/[0.04]"
+                }`}
+              >
+                {/* Subtle hover specular glare */}
+                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_40%,_rgba(255,184,0,0.15),_transparent_70%)] transition-opacity duration-300" />
 
-              return (
-                <div
-                  key={index}
-                  className={`group relative flex flex-col items-center justify-center p-8 sm:p-10 lg:p-12 text-center transition-all duration-300 ${
-                    item.isHighlighted
-                      ? "bg-gradient-to-b from-gold/25 via-gold/15 to-gold/25 text-white shadow-[inset_0_0_40px_rgba(255,184,0,0.15)]"
-                      : "bg-[#0b0b10]/60 hover:bg-white/[0.04]"
-                  } ${isSecondRow ? "sm:border-t sm:border-white/10" : ""}`}
+                {/* Value */}
+                <span
+                  className={`relative z-10 font-black tracking-tight leading-none text-3xl sm:text-5xl lg:text-[54px] ${
+                    item.isHighlighted ? "text-gold-bright drop-shadow-[0_0_20px_rgba(255,184,0,0.5)]" : "text-white group-hover:text-gold transition-colors"
+                  }`}
                 >
-                  {/* Subtle hover specular glare */}
-                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_40%,_rgba(255,184,0,0.15),_transparent_70%)] transition-opacity duration-300" />
+                  {item.value}
+                </span>
 
-                  {/* Value */}
-                  <span
-                    className={`relative z-10 font-black tracking-tight leading-none text-4xl sm:text-5xl lg:text-[54px] ${
-                      item.isHighlighted ? "text-gold-bright drop-shadow-[0_0_20px_rgba(255,184,0,0.5)]" : "text-white group-hover:text-gold transition-colors"
-                    }`}
-                  >
-                    {item.value}
+                {/* Label */}
+                <span
+                  className={`relative z-10 mt-2.5 sm:mt-3.5 text-[10px] sm:text-xs font-bold tracking-[0.18em] uppercase ${
+                    item.isHighlighted ? "text-amber-200" : "text-gray-muted group-hover:text-gray-200 transition-colors"
+                  }`}
+                >
+                  {item.label}
+                </span>
+
+                {/* Optional Condition Note */}
+                {item.note && (
+                  <span className="relative z-10 mt-1.5 sm:mt-2 text-[9.5px] sm:text-[10.5px] font-medium text-gold/80 max-w-[220px] leading-snug">
+                    {item.note}
                   </span>
-
-                  {/* Label */}
-                  <span
-                    className={`relative z-10 mt-3.5 text-[11px] sm:text-xs font-bold tracking-[0.18em] uppercase ${
-                      item.isHighlighted ? "text-amber-200" : "text-gray-muted group-hover:text-gray-200 transition-colors"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-
-                  {/* Optional Condition Note */}
-                  {item.note && (
-                    <span className="relative z-10 mt-2 text-[10.5px] font-medium text-gold/80 max-w-[220px] leading-snug">
-                      {item.note}
-                    </span>
-                  )}
-                </div>
-              );
-            })}
+                )}
+              </div>
+            ))}
           </div>
         </motion.div>
 
