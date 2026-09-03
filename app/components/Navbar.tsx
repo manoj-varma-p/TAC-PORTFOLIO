@@ -90,17 +90,19 @@ export default function Navbar() {
           })}
         </nav>
 
-        <a
-          href="https://wa.me/919848000274"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group hidden shrink-0 items-center gap-2 rounded-[4px] border border-gold/70 px-5 py-2.5 text-[13px] font-semibold tracking-wide text-white transition-all hover:-translate-y-0.5 hover:border-gold hover:shadow-[0_0_20px_rgba(255,184,0,0.35)] sm:flex"
-        >
-          LET&apos;S TALK
-          <ArrowUpRight className="h-3.5 w-3.5 text-gold transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <a
+            href="https://wa.me/919848000274"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-1.5 sm:gap-2 rounded-[4px] border border-gold/70 px-3 py-1.5 sm:px-5 sm:py-2.5 text-[11px] sm:text-[13px] font-semibold tracking-wide text-white transition-all hover:-translate-y-0.5 hover:border-gold hover:shadow-[0_0_20px_rgba(255,184,0,0.35)]"
+          >
+            LET&apos;S TALK
+            <ArrowUpRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-gold transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
 
-        <MobileMenu />
+          <MobileMenu />
+        </div>
       </div>
     </header>
   );
