@@ -122,9 +122,10 @@ export default function AfterEffectsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-bg text-foreground">
       <Navbar />
-      <main className="relative flex flex-1 flex-col justify-center">
+      <main className="relative flex flex-1 flex-col justify-center -mt-4 sm:-mt-8 lg:-mt-12">
         <AfterEffectsShowcase items={items} />
       </main>
     </div>
   );
 }
+

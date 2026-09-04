@@ -25,6 +25,10 @@ export interface OptionWheelProps {
   soundUrl?: string;
   soundVolume?: number;
   className?: string;
+  autoScroll?: boolean;
+  autoScrollInterval?: number;
+  pauseOnHover?: boolean;
+  paused?: boolean;
 }
 
 interface WheelConfig {
@@ -80,6 +84,10 @@ const OptionWheel = ({
   soundUrl = "",
   soundVolume = 0.5,
   className = "",
+  autoScroll = false,
+  autoScrollInterval = 3000,
+  pauseOnHover = true,
+  paused = false,
 }: OptionWheelProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -96,6 +104,10 @@ const OptionWheel = ({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef("");
   const lastTickRef = useRef(0);
+  const isHoveredRef = useRef(false);
+  const isInteractingRef = useRef(false);
+  const userInteractTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [selectedIndex, setSelectedIndex] = useState(defaultSelected);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -156,13 +168,15 @@ const OptionWheel = ({
       let x = 0;
       let y = d * cfg.rowH;
       let rot = 0;
+      let scale = 1;
       if (R > 0) {
         const ang = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, d * tiltRad));
         y = R * Math.sin(ang);
         x = -mirror * R * (1 - Math.cos(ang)) * cfg.curve;
         rot = (mirror * ang * 180) / Math.PI;
+        scale = Math.max(0.75, Math.cos(ang));
       }
-      el.style.transform = `translate(${x.toFixed(2)}px, calc(${y.toFixed(2)}px - 50%)) rotate(${rot.toFixed(3)}deg)`;
+      el.style.transform = `translate(${x.toFixed(2)}px, calc(${y.toFixed(2)}px - 50%)) rotate(${rot.toFixed(3)}deg) scale(${scale.toFixed(3)})`;
       el.style.opacity = String(Math.max(cfg.minOpacity, 1 - dist * cfg.fade));
       el.style.filter = cfg.blur > 0 ? `blur(${(dist * cfg.blur).toFixed(2)}px)` : "none";
       el.style.setProperty("--ow-p", Math.max(0, 1 - Math.min(dist, 1)).toFixed(4));
@@ -219,11 +233,34 @@ const OptionWheel = ({
     [startLoop, playTick]
   );
 
+  const resetUserInteractionTimer = useCallback(() => {
+    isInteractingRef.current = true;
+    if (userInteractTimeoutRef.current) clearTimeout(userInteractTimeoutRef.current);
+    userInteractTimeoutRef.current = setTimeout(() => {
+      isInteractingRef.current = false;
+    }, 4000);
+  }, []);
+
+  useEffect(() => {
+    if (!autoScroll || items.length <= 1) return;
+
+    const interval = setInterval(() => {
+      if (paused) return;
+      if (pauseOnHover && isHoveredRef.current) return;
+      if (isDragging || isInteractingRef.current) return;
+
+      applyTarget(targetRef.current + 1, true);
+    }, autoScrollInterval);
+
+    return () => clearInterval(interval);
+  }, [autoScroll, autoScrollInterval, pauseOnHover, paused, isDragging, items.length, applyTarget]);
+
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
+      resetUserInteractionTimer();
       const cfg = cfgRef.current;
       const delta = e.deltaMode === 1 ? e.deltaY * 24 : e.deltaY;
       const step = Math.max(-1, Math.min(1, delta / cfg.rowH));
@@ -236,14 +273,18 @@ const OptionWheel = ({
       el.removeEventListener("wheel", onWheel);
       if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
     };
-  }, [applyTarget]);
+  }, [applyTarget, resetUserInteractionTimer]);
 
-  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!cfgRef.current.draggable) return;
-    dragRef.current = { y: e.clientY, start: targetRef.current, id: e.pointerId };
-    dragMovedRef.current = false;
-    setIsDragging(true);
-  }, []);
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      resetUserInteractionTimer();
+      if (!cfgRef.current.draggable) return;
+      dragRef.current = { y: e.clientY, start: targetRef.current, id: e.pointerId };
+      dragMovedRef.current = false;
+      setIsDragging(true);
+    },
+    [resetUserInteractionTimer]
+  );
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
@@ -269,6 +310,7 @@ const OptionWheel = ({
   const handleItemClick = useCallback(
     (index: number) => {
       if (dragMovedRef.current) return;
+      resetUserInteractionTimer();
       const cfg = cfgRef.current;
       const cur = targetRef.current;
       let d = index - (((cur % cfg.count) + cfg.count) % cfg.count);
@@ -278,7 +320,7 @@ const OptionWheel = ({
       }
       applyTarget(cur + d, true);
     },
-    [applyTarget]
+    [applyTarget, resetUserInteractionTimer]
   );
 
   const handleKeyDown = useCallback(
@@ -288,9 +330,10 @@ const OptionWheel = ({
       else if (e.key === "ArrowDown" || e.key === "ArrowRight") delta = 1;
       if (delta == null) return;
       e.preventDefault();
+      resetUserInteractionTimer();
       applyTarget(Math.round(targetRef.current) + delta, true);
     },
-    [applyTarget]
+    [applyTarget, resetUserInteractionTimer]
   );
 
   useEffect(() => {
@@ -302,6 +345,7 @@ const OptionWheel = ({
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
       audioRef.current?.pause();
+      if (userInteractTimeoutRef.current) clearTimeout(userInteractTimeoutRef.current);
     },
     []
   );
@@ -312,7 +356,9 @@ const OptionWheel = ({
       role="listbox"
       tabIndex={0}
       aria-label="Option wheel"
-      className={`relative h-full w-full select-none overflow-hidden outline-none [touch-action:none] ${isDragging ? "cursor-grabbing" : "cursor-grab"}${className ? ` ${className}` : ""}`}
+      className={`relative h-full w-full select-none overflow-visible outline-none [touch-action:none] ${
+        isDragging ? "cursor-grabbing" : "cursor-grab"
+      }${className ? ` ${className}` : ""}`}
       style={
         {
           "--ow-text-color": textColor,
@@ -321,6 +367,12 @@ const OptionWheel = ({
           "--ow-inset": `${inset}px`,
         } as CSSProperties
       }
+      onPointerEnter={() => {
+        isHoveredRef.current = true;
+      }}
+      onPointerLeave={() => {
+        isHoveredRef.current = false;
+      }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerEnd}
@@ -335,9 +387,9 @@ const OptionWheel = ({
           }}
           role="option"
           aria-selected={selectedIndex === index}
-          className={`absolute top-1/2 cursor-pointer whitespace-nowrap leading-none will-change-[transform,opacity,filter] [font-size:var(--ow-font-size)] [color:color-mix(in_srgb,var(--ow-active-color)_calc(var(--ow-p,0)*100%),var(--ow-text-color))] ${
+          className={`absolute top-1/2 cursor-pointer whitespace-nowrap leading-tight will-change-[transform,opacity,filter] [font-size:var(--ow-font-size)] tracking-tight transition-[color] duration-150 [color:color-mix(in_srgb,var(--ow-active-color)_calc(var(--ow-p,0)*100%),var(--ow-text-color))] ${
             side === "right" ? "right-[var(--ow-inset)] origin-right" : "left-[var(--ow-inset)] origin-left"
-          } ${selectedIndex === index ? "font-medium" : "font-extralight"}`}
+          } ${selectedIndex === index ? "font-bold text-white drop-shadow-[0_0_14px_rgba(255,255,255,0.4)]" : "font-medium hover:text-white"}`}
           onClick={() => handleItemClick(index)}
         >
           {label}
