@@ -9,7 +9,6 @@ import {
   IllustratorIcon,
   AfterEffectsIcon,
   DaVinciIcon,
-  CameraIcon,
   SpotlightIcon,
   PencilIcon,
   MegaphoneIcon,
@@ -24,7 +23,6 @@ const navIcons: Record<string, ReactNode> = {
   Illustrator: <IllustratorIcon className="h-9 w-9" />,
   "After Effects": <AfterEffectsIcon className="h-9 w-9" />,
   "DaVinci Resolve": <DaVinciIcon className="h-9 w-9" />,
-  "Content Shoot": <CameraIcon className="h-9 w-9" />,
   "Spotlight Saturday": <SpotlightIcon className="h-9 w-9" />,
 };
 

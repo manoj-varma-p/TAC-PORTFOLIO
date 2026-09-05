@@ -4,6 +4,5 @@ export const navItems = [
   { label: "Illustrator", href: "/illustrator" },
   { label: "After Effects", href: "/after-effects" },
   { label: "DaVinci Resolve", href: "/davinci-resolve" },
-  { label: "Content Shoot", href: "/content-shoot" },
   { label: "Spotlight Saturday", href: "/spotlight-saturday" },
 ];
