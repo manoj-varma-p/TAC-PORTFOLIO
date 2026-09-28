@@ -177,6 +177,53 @@ export function DaVinciIcon({ className = "h-8 w-8" }: IconProps) {
   );
 }
 
+export function AIIcon({ className = "h-8 w-8" }: IconProps) {
+  return (
+    <div className={`relative flex items-center justify-center shrink-0 ${className}`}>
+      <svg viewBox="0 0 36 36" className="h-full w-full drop-shadow-[0_4px_12px_rgba(20,240,200,0.25)] transition-all duration-300 group-hover:drop-shadow-[0_6px_16px_rgba(20,240,200,0.5)]">
+        <defs>
+          <linearGradient id="ai-hub-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#022e2b" />
+            <stop offset="60%" stopColor="#011918" />
+            <stop offset="100%" stopColor="#000d0c" />
+          </linearGradient>
+          <linearGradient id="ai-hub-border" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.95" />
+            <stop offset="50%" stopColor="#2dd4bf" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#0f766e" stopOpacity="0.8" />
+          </linearGradient>
+          <linearGradient id="ai-hub-shine" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
+            <stop offset="45%" stopColor="#ffffff" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="ai-sparkle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#67e8f9" />
+            <stop offset="50%" stopColor="#2dd4bf" />
+            <stop offset="100%" stopColor="#facc15" />
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#ai-hub-bg)" stroke="url(#ai-hub-border)" strokeWidth="1.5" />
+        <path d="M2.5 10 C2.5 5.8 5.8 2.5 10 2.5 L26 2.5 C30.2 2.5 33.5 5.8 33.5 10 L33.5 17 C26 19 10 16 2.5 18 Z" fill="url(#ai-hub-shine)" />
+        {/* Glowing Neural Spark / Star */}
+        <path
+          d="M18 7.5 C18 12.5 14 16.5 9 16.5 C14 16.5 18 20.5 18 25.5 C18 20.5 22 16.5 27 16.5 C22 16.5 18 12.5 18 7.5 Z"
+          fill="url(#ai-sparkle-grad)"
+          filter="drop-shadow(0 0 4px rgba(45,212,191,0.8))"
+        />
+        {/* Secondary Satellite Spark */}
+        <path
+          d="M26 8 C26 9.8 24.5 11.2 23 11.2 C24.5 11.2 26 12.6 26 14.4 C26 12.6 27.5 11.2 29 11.2 C27.5 11.2 26 9.8 26 8 Z"
+          fill="#facc15"
+          filter="drop-shadow(0 0 3px rgba(250,204,21,0.8))"
+        />
+        {/* Core Node */}
+        <circle cx="18" cy="16.5" r="1.8" fill="#ffffff" filter="drop-shadow(0 0 3px #ffffff)" />
+      </svg>
+    </div>
+  );
+}
+
 export function CameraIcon({ className = "h-8 w-8" }: IconProps) {
   return (
     <div className={`relative flex items-center justify-center shrink-0 ${className}`}>

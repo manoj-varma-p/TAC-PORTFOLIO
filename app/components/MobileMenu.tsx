@@ -10,6 +10,7 @@ import {
   IllustratorIcon,
   AfterEffectsIcon,
   DaVinciIcon,
+  AIIcon,
   SpotlightIcon,
   ArrowUpRight,
   InstagramIcon,
@@ -23,12 +24,24 @@ const navIcons: Record<string, ReactNode> = {
   Illustrator: <IllustratorIcon className="h-7 w-7" />,
   "After Effects": <AfterEffectsIcon className="h-7 w-7" />,
   "DaVinci Resolve": <DaVinciIcon className="h-7 w-7" />,
+  AI: <AIIcon className="h-7 w-7" />,
   "Spotlight Saturday": <SpotlightIcon className="h-7 w-7" />,
 };
+
+import { useAutoTour } from "../context/AutoTourContext";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const {
+    isActive: isTourActive,
+    isPaused: isTourPaused,
+    currentStepIndex,
+    totalSteps,
+    startTour,
+    stopTour,
+    togglePause,
+  } = useAutoTour();
 
   // Prevent background scrolling when fullscreen menu is open
   useEffect(() => {
@@ -78,9 +91,78 @@ export default function MobileMenu() {
             className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-[350px] w-[350px] rounded-full bg-gold/15 blur-[120px]"
           />
 
+          {/* Auto Tour Mode Quick Card */}
+          <div className="relative mb-3 rounded-xl border border-gold/40 bg-gold/10 p-3.5 backdrop-blur-md">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span
+                    className={`inline-flex rounded-full h-2.5 w-2.5 ${
+                      isTourActive
+                        ? isTourPaused
+                          ? "bg-amber-400"
+                          : "bg-emerald-400 animate-pulse"
+                        : "bg-gold"
+                    }`}
+                  />
+                  {isTourActive && !isTourPaused && (
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  )}
+                </span>
+                <div>
+                  <h4 className="text-xs font-bold text-white tracking-wide">
+                    {isTourActive
+                      ? `AUTO TOUR ACTIVE (${currentStepIndex + 1}/${totalSteps})`
+                      : "AUTO SHOWCASE TOUR"}
+                  </h4>
+                  <p className="text-[10px] text-gray-light">
+                    {isTourActive
+                      ? isTourPaused
+                        ? "Tour is paused"
+                        : "Looping through entire website"
+                      : "Showcase every section automatically"}
+                  </p>
+                </div>
+              </div>
+
+              {!isTourActive ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    startTour();
+                    setOpen(false);
+                  }}
+                  className="rounded-[4px] border border-gold bg-gold px-3 py-1.5 text-[11px] font-bold text-black shadow-[0_0_12px_rgba(255,184,0,0.5)] active:scale-95"
+                >
+                  START
+                </button>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={togglePause}
+                    className="rounded-[4px] border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-white"
+                  >
+                    {isTourPaused ? "RESUME" : "PAUSE"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      stopTour();
+                      setOpen(false);
+                    }}
+                    className="rounded-[4px] border border-red-500/40 bg-red-500/20 px-2 py-1 text-[10px] font-semibold text-red-300"
+                  >
+                    EXIT
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Navigation Links Grid filling the screen */}
-          <div className="relative my-auto flex flex-col gap-3 py-4">
-            <p className="text-[11px] font-bold tracking-[0.25em] text-gold uppercase mb-2">
+          <div className="relative my-auto flex flex-col gap-3 py-2">
+            <p className="text-[11px] font-bold tracking-[0.25em] text-gold uppercase mb-1">
               EXPLORE SHOWCASES
             </p>
             <div className="grid grid-cols-2 gap-3">

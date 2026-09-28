@@ -35,7 +35,7 @@ const STATS_DATA: StatBlock[] = [
   },
   {
     id: "pkg",
-    value: "₹7.2 LPA",
+    value: "₹7.2L",
     label: "HIGHEST PACKAGE",
     isHighlighted: true,
     mobileOrder: "order-3",

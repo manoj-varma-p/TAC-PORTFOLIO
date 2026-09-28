@@ -67,6 +67,7 @@ export const metadata: Metadata = {
 
 import ContactModal from "./components/ContactModal";
 import Preloader from "./components/Preloader";
+import { AutoTourProvider } from "./context/AutoTourContext";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -75,9 +76,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${manrope.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Preloader />
-        {children}
-        <ContactModal />
+        <AutoTourProvider>
+          <Preloader />
+          {children}
+          <ContactModal />
+        </AutoTourProvider>
       </body>
     </html>
   );
