@@ -95,6 +95,14 @@ const AFTER_EFFECTS_VIDEOS: AfterEffectsItem[] = [
     description: "Rhythmic expression-driven animations and fluid morphing shapes.",
     poster: "https://img.youtube.com/vi/CvBfHwUxHIk/hqdefault.jpg",
   },
+  {
+    youtubeId: "KjGy3jlLNB0",
+    title: "AE Motion Cut",
+    format: "normal",
+    category: "Motion Design",
+    description: "Creative After Effects motion composition and dynamic visual storytelling.",
+    poster: "https://img.youtube.com/vi/KjGy3jlLNB0/hqdefault.jpg",
+  },
 ];
 
 function getLocalAfterEffectsVideos(): AfterEffectsItem[] {
