@@ -5,7 +5,7 @@ import VideoThumbnail from "./VideoThumbnail";
 import type { VideoWallItem } from "./VideoData";
 import type { ScrollVelocityState } from "./useScrollVelocity";
 
-const COPIES = 6;
+const COPIES = 8;
 const ROW_GAP = 28;
 const COPY_INDICES = Array.from({ length: COPIES }, (_, c) => c);
 
