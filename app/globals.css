@@ -121,6 +121,99 @@ body {
   animation-play-state: paused;
 }
 
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 25s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 36s linear infinite;
+}
+
+.animate-marquee-reverse-slow:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-fast {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.animate-marquee-fast:hover {
+  animation-play-state: paused;
+}
+
+/* Continuous Company Scroller Lanes: Smooth relaxed speed, never pause on cursor/hover */
+.animate-company-lane-1 {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite !important;
+  animation-play-state: running !important;
+}
+
+.animate-company-lane-2 {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 64s linear infinite !important;
+  animation-play-state: running !important;
+}
+
+.animate-company-lane-3 {
+  display: flex;
+  width: max-content;
+  animation: marquee 68s linear infinite !important;
+  animation-play-state: running !important;
+}
+
+.animate-company-lane-4 {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 62s linear infinite !important;
+  animation-play-state: running !important;
+}
+
+.animate-company-lane-1:hover,
+.animate-company-lane-2:hover,
+.animate-company-lane-3:hover,
+.animate-company-lane-4:hover,
+.animate-company-lane-1 *,
+.animate-company-lane-2 *,
+.animate-company-lane-3 *,
+.animate-company-lane-4 *,
+#hires-by:hover .animate-company-lane-1,
+#hires-by:hover .animate-company-lane-2,
+#hires-by:hover .animate-company-lane-3,
+#hires-by:hover .animate-company-lane-4 {
+  animation-play-state: running !important;
+}
+
 @keyframes spin-360 {
   from {
     transform: rotate(0deg);
