@@ -96,9 +96,9 @@ export default function HiresBySection({
           Hires <span className="text-gold">By</span>
         </h2>
 
-        {/* Replaced Subtitle with 4 Prominent Stat Cards featuring Large Icons */}
-        <div className="mx-auto mt-7 sm:mt-9 max-w-4xl">
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+        {/* Replaced Subtitle with 5 Prominent Stat Cards featuring Large Icons */}
+        <div className="mx-auto mt-7 sm:mt-9 max-w-[1100px]">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-5">
             {/* Card 1: 40+ Hiring Studios */}
             <div className="group relative flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5 text-center shadow-lg backdrop-blur-md transition-all duration-300 hover:border-gold/50 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(255,184,0,0.25)] hover:-translate-y-1">
               <div className="mb-2.5 flex h-12 w-12 items-center justify-center rounded-xl bg-gold/10 text-gold transition-transform duration-300 group-hover:scale-110">
@@ -141,8 +141,23 @@ export default function HiresBySection({
               </p>
             </div>
 
-            {/* Card 4: 60 Days Avg Placement Time */}
+            {/* Card 4: ₹3.5 LPA Average Package */}
             <div className="group relative flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5 text-center shadow-lg backdrop-blur-md transition-all duration-300 hover:border-gold/50 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(255,184,0,0.25)] hover:-translate-y-1">
+              <div className="mb-2.5 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10 text-[#c084fc] transition-transform duration-300 group-hover:scale-110">
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="3" y="12" width="4" height="8" rx="1" />
+                  <rect x="10" y="8" width="4" height="12" rx="1" />
+                  <rect x="17" y="4" width="4" height="16" rx="1" />
+                </svg>
+              </div>
+              <p className="text-2xl sm:text-3xl font-black text-white">3.5 LPA</p>
+              <p className="mt-1 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-gray-light">
+                Average Package
+              </p>
+            </div>
+
+            {/* Card 5: 60 Days Avg Placement Time */}
+            <div className="col-span-2 md:col-span-1 group relative flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5 text-center shadow-lg backdrop-blur-md transition-all duration-300 hover:border-gold/50 hover:bg-white/[0.06] hover:shadow-[0_0_30px_rgba(255,184,0,0.25)] hover:-translate-y-1">
               <div className="mb-2.5 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-500/10 text-[#38bdf8] transition-transform duration-300 group-hover:scale-110">
                 <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <circle cx="12" cy="12" r="9" />
